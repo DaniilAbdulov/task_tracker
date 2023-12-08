@@ -1,6 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
 import "./App.scss";
-import "./components/Home/Task.scss";
 import { Router } from "./Router/Router";
 
 export const App = () => {
