@@ -1,0 +1,66 @@
+.tasks__list {
+    max-height: 700px;
+    overflow: scroll;
+}
+.tasks__item {
+}
+.item {
+    cursor: pointer;
+    display: flex;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    justify-content: space-between;
+    &__block {
+        flex: 0 1 20%;
+        text-align: center;
+        margin: 0 2px 0;
+    }
+    &__block-title {
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+    &__block-body {
+    }
+    &__inspector {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        line-height: 15px;
+        span {
+            margin: 0 2px 0;
+        }
+    }
+}
+.actions {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    border: 1px solid black;
+    &__create-task {
+        flex: 1 1 auto;
+    }
+}
+.sort {
+    &__form {
+        display: flex;
+        button {
+            margin-right: 5px;
+        }
+    }
+    &__values {
+        display: flex;
+    }
+    &__value {
+        select {
+            border: 1px solid black;
+            border-radius: 5px;
+            margin-right: 5px;
+
+            cursor: pointer;
+        }
+    }
+}
