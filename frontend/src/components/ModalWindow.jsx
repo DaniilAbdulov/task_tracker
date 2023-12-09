@@ -1,5 +1,5 @@
 import { Modal, Typography, Space, Flex } from "antd";
-
+import { usersNames } from "../../data/usersNames";
 import TextArea from "antd/es/input/TextArea";
 import { SelectInspector } from "./ModalWindowComponents/SelectInspector";
 import { ButtonsForModalWindow } from "./ModalWindowComponents/ButtonsForModalWindow";
@@ -9,6 +9,7 @@ import { SelectDate } from "./ModalWindowComponents/SelectDate";
 import { InputTitle } from "./ModalWindowComponents/InputTitle";
 import { TextAreaDescription } from "./ModalWindowComponents/TextAreaDescription";
 import { useState } from "react";
+import { SelectValues } from "./ModalWindowComponents/SelectValues";
 
 const { Text } = Typography;
 const ModalWindow = ({ visible, setVisible, action = "check" }) => {
@@ -49,6 +50,12 @@ const ModalWindow = ({ visible, setVisible, action = "check" }) => {
                         width: "100%",
                     }}
                 >
+                    <SelectValues
+                        selectorTitle="Выдано"
+                        value={director}
+                        setValue={setDirector}
+                        opt={usersNames}
+                    />
                     <SelectDirector
                         selectDirectorHandler={selectDirectorHandler}
                     />
