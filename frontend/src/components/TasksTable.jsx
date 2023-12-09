@@ -13,9 +13,9 @@ const data = getWorkData(tasks, users);
 export const TasksTable = observer(() => {
     const isDirector = auth.isDirector;
     //список работников
-    const [filters] = useState(usersNames);
+    const filters = usersNames;
     //названия столбоцов и данные в них
-    const [columns] = useState([
+    const columns = [
         {
             title: "Задача",
             dataIndex: "title",
@@ -99,7 +99,7 @@ export const TasksTable = observer(() => {
             key: "status",
             dataIndex: "status",
         },
-    ]);
+    ];
     const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
 
     const handleRowClick = (record) => {

@@ -20,8 +20,6 @@ export const Router = observer(() => {
             <Routes>
                 <Route path="/" element={<Auth />} />
                 {isAuth && <Route path="/home" element={<Home />} />}
-
-                {/* <Route path="*" element={<Page404 />} /> */}
             </Routes>
         </div>
     );

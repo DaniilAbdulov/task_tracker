@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 // import { API_URL } from "../config";
 // import axios from "axios";
 class Auth {
-    isDirector = false;
+    isDirector = true;
     isEmployee = false;
     isAuth = false;
     userRole = "";
