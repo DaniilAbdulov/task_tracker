@@ -1,25 +1,21 @@
 import { Modal, Typography, Space, Flex } from "antd";
-import { usersNames } from "../../data/usersNames";
-import TextArea from "antd/es/input/TextArea";
-import { SelectInspector } from "./ModalWindowComponents/SelectInspector";
+import { usersNames } from "./../data/usersNames";
+import { priorities } from "./../data/priorities";
 import { ButtonsForModalWindow } from "./ModalWindowComponents/ButtonsForModalWindow";
-import { SelectDirector } from "./ModalWindowComponents/SelectDirector";
-import { SelectPriority } from "./ModalWindowComponents/SelectPriority";
+import { SelectValues } from "./ModalWindowComponents/SelectValues";
 import { SelectDate } from "./ModalWindowComponents/SelectDate";
 import { InputTitle } from "./ModalWindowComponents/InputTitle";
 import { TextAreaDescription } from "./ModalWindowComponents/TextAreaDescription";
-import { useState } from "react";
-import { SelectValues } from "./ModalWindowComponents/SelectValues";
-
 const { Text } = Typography;
+
 const ModalWindow = ({ visible, setVisible, action = "check" }) => {
     console.log(action);
-    const [director, setDirector] = useState("");
-    const [inspector, setInspector] = useState("");
-    const [priority, setPriority] = useState("");
-    const [date, setDate] = useState("");
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
+    // const [director, setDirector] = useState("");
+    // const [inspector, setInspector] = useState("");
+    // const [priority, setPriority] = useState("");
+    // const [date, setDate] = useState("");
+    // const [title, setTitle] = useState("");
+    // const [description, setDescription] = useState("");
     const selectDirectorHandler = (value) => {
         console.log(value);
     };
@@ -35,7 +31,9 @@ const ModalWindow = ({ visible, setVisible, action = "check" }) => {
     const inputTitleHandler = (value) => {
         console.log(value);
     };
-
+    const directorDefaultfValue = "Абдулов Директор Директорович";
+    const inspectorDefaultfValue = "Абдулов Инспектор Инспекторович";
+    const priorityDefaultfValue = "Приоритет";
     return (
         <div className="modal-window">
             <Modal
@@ -51,19 +49,22 @@ const ModalWindow = ({ visible, setVisible, action = "check" }) => {
                     }}
                 >
                     <SelectValues
-                        selectorTitle="Выдано"
-                        value={director}
-                        setValue={setDirector}
-                        opt={usersNames}
+                        defVal={directorDefaultfValue}
+                        selectValue={selectDirectorHandler}
+                        valuesForSelect={usersNames}
+                        title="Выдано:"
                     />
-                    <SelectDirector
-                        selectDirectorHandler={selectDirectorHandler}
+                    <SelectValues
+                        defVal={inspectorDefaultfValue}
+                        selectValue={selectInspectorHandler}
+                        valuesForSelect={usersNames}
+                        title="Ответственный:"
                     />
-                    <SelectInspector
-                        selectInspectorHandler={selectInspectorHandler}
-                    />
-                    <SelectPriority
-                        selectPriorityHandler={selectPriorityHandler}
+                    <SelectValues
+                        defVal={priorityDefaultfValue}
+                        selectValue={selectPriorityHandler}
+                        valuesForSelect={priorities}
+                        title="Приоритет:"
                     />
                     <InputTitle
                         value={"Title"}

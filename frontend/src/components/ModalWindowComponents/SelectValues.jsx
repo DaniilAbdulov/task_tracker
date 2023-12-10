@@ -1,21 +1,19 @@
-import { Select, Space, Typography } from "antd";
-import { priorities } from "../../data/priorities";
+import { Select, Space } from "antd";
+import { Typography } from "antd";
 import { observer } from "mobx-react-lite";
 const { Text } = Typography;
 export const SelectValues = observer(
-    ({ value, setValue, selectorTitle, action, opt }) => {
-        console.log(action);
-        console.log(opt);
+    ({ selectValue, defVal, valuesForSelect, title }) => {
         return (
             <Space>
-                <Text strong>{selectorTitle}:</Text>{" "}
+                <Text strong>{title}</Text>
                 <Select
-                    defaultValue={value}
+                    defaultValue={defVal}
                     style={{
-                        width: 100,
+                        width: 250,
                     }}
-                    onChange={setValue}
-                    options={opt}
+                    onChange={selectValue}
+                    options={valuesForSelect}
                 />
             </Space>
         );
