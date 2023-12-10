@@ -4,7 +4,9 @@ import { makeAutoObservable } from "mobx";
 class Auth {
     isDirector = true;
     isEmployee = false;
-    isAuth = false;
+    // isDirector = false;
+    // isEmployee = true;
+    isAuth = true;
     userRole = "";
     isLoading = false;
     constructor() {

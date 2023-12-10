@@ -1,76 +1,118 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { Button, Space } from "antd";
 import { observer } from "mobx-react-lite";
 import { auth } from "../../store/auth";
 
-export const ButtonsForModalWindow = observer(({ setVisible }) => {
-    const actionIsCreate = false;
+export const ButtonsForModalWindow = observer(({ isNewForm }) => {
     const isDirector = auth.isDirector;
-    const [loading, setLoading] = useState(false);
+    const action = isDirector ? (isNewForm ? "create" : "edit") : "check";
+    //actions create edit check
+    // const [loading, setLoading] = useState(false);
     const handleAccepted = () => {
-        setVisible(false);
+        alert("Accepted");
+        //setVisible(false);
     };
     const handleDone = () => {
-        setVisible(false);
+        alert("Done");
+        //setVisible(false);
     };
     const handleCancel = () => {
-        setVisible(false);
+        alert("Cancel");
+        //setVisible(false);
     };
     const handleCreate = () => {
-        setVisible(false);
+        alert("Create");
+        //setVisible(false);
     };
     const handleChange = () => {
-        setVisible(false);
+        alert("Change");
+        //setVisible(false);
     };
-    const checkFormButtons = [
-        <Button key="accepted" onClick={handleAccepted} loading={loading}>
-            Принять к исполнению
-        </Button>,
-        <Button
-            style={{ backgroundColor: "green" }}
-            key="done"
-            type="primary"
-            loading={loading}
-            onClick={handleDone}
-        >
-            Выполнено
-        </Button>,
+    const formButtons = [
+        {
+            id: 1,
+            key: "accepted",
+            clickHandler: handleAccepted,
+            type: "default",
+            htmlType: "button",
+            title: "Принять к исполнению",
+            action: "check",
+            style: {
+                color: "",
+                backgroundColor: "",
+            },
+        },
+        {
+            id: 2,
+            key: "done",
+            clickHandler: handleDone,
+            type: "primary",
+            htmlType: "button",
+            title: "Выполнено",
+            action: "check",
+            style: {
+                color: "",
+                backgroundColor: "green",
+            },
+        },
+        {
+            id: 3,
+            key: "change",
+            clickHandler: handleChange,
+            type: "default",
+            htmlType: "submit",
+            title: "Изменить задачу",
+            action: "edit",
+            style: {
+                color: "white",
+                backgroundColor: "blue",
+            },
+        },
+        {
+            id: 4,
+            key: "cancel",
+            clickHandler: handleCancel,
+            type: "default",
+            htmlType: "button",
+            title: "Отменить задание",
+            action: "edit",
+            style: {
+                color: "red",
+                backgroundColor: "",
+            },
+        },
+        {
+            id: 5,
+            key: "create",
+            clickHandler: handleCreate,
+            type: "primary",
+            htmlType: "submit",
+            title: "Создать задачу",
+            action: "create",
+            style: {
+                color: "",
+                backgroundColor: "blue",
+            },
+        },
     ];
-    const changeFormButtons = [
-        <Button key="change" onClick={handleChange} loading={loading}>
-            Изменить задачу
-        </Button>,
-        <Button
-            key="cancel"
-            loading={loading}
-            onClick={handleCancel}
-            danger
-            ghost
-        >
-            Отменить задание
-        </Button>,
-    ];
-    const createFormButtons = [
-        <Button
-            key="create"
-            type="primary"
-            onClick={handleCreate}
-            loading={loading}
-        >
-            Создать задачу
-        </Button>,
-    ];
-    const currentFormButtons = isDirector
-        ? actionIsCreate
-            ? createFormButtons
-            : changeFormButtons
-        : checkFormButtons;
+
     return (
         <Space style={{ marginTop: "20px" }}>
-            {currentFormButtons.map((btn) => {
-                console.log(btn);
-                return btn;
-            })}
+            {formButtons
+                .filter((btn) => btn.action === `${action}`)
+                .map((btn) => (
+                    <Button
+                        key={btn.key}
+                        type={btn.type}
+                        onClick={() => btn.clickHandler()}
+                        // loading={loading}
+                        htmlType={btn.htmlType}
+                        style={btn.style}
+                        disabled={false}
+                    >
+                        {btn.title}
+                    </Button>
+                ))}
         </Space>
     );
 });
