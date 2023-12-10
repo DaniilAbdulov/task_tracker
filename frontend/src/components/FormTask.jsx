@@ -5,26 +5,58 @@ import { Form, Typography, Flex, DatePicker, Space, Input } from "antd";
 import { SelectValues } from "./ModalWindowComponents/SelectValues";
 import { auth } from "../store/auth";
 import dayjs from "dayjs";
-import TextArea from "antd/es/input/TextArea";
 import { ButtonsForModalWindow } from "./ModalWindowComponents/ButtonsForModalWindow";
 import { observer } from "mobx-react-lite";
-const dateFormat = "YYYY-MM-DD";
+import { formattedDate } from "../functions/formattedDate";
+const dateFormat = "DD/MM/YYYY";
 
 const { Text } = Typography;
 export const FormTask = observer(({ isNewForm }) => {
     const isDirector = auth.isDirector;
     const onFinish = (values) => {
-        console.log("Received values from form: ", values);
+        const correctDate = formattedDate(values.ends_in);
+        if (isNewForm) {
+            const newTask = {
+                title: values.title,
+                description: values.description,
+                ends_in: correctDate,
+                created_at: formattedDate(),
+                updated_at: formattedDate(),
+                priority: values.priority.content,
+                status: "К исполнению",
+                author_id: values.author.content,
+                inspector_id: values.inspector.content,
+            };
+            console.log(newTask);
+        } else {
+            const changeOfTask = {
+                title: values.title,
+                description: values.description,
+                ends_in: correctDate,
+                priority: values.priority.content,
+                author_id: values.author.content,
+                inspector_id: values.inspector.content,
+            };
+            console.log(changeOfTask);
+        }
     };
-    const ex = isNewForm;
-    const directorDefaultfValue = ex ? "" : "Абдулов Директор Директорович";
-    const inspectorDefaultfValue = ex ? "" : "Абдулов Инспектор Инспекторович";
-    const priorityDefaultfValue = ex ? "" : "Средний";
-    const titleDefaultfValue = ex ? "" : "Title of Task";
-    const descriptionDefaultfValue = ex
+    const config = {
+        rules: [
+            {
+                type: "object",
+                required: true,
+                message: "Выберите время",
+            },
+        ],
+    };
+    const authorDefaultfValue = isNewForm ? "" : "Выберите выдающего";
+    const inspectorDefaultfValue = isNewForm ? "" : "Выберите ответственного";
+    const priorityDefaultfValue = isNewForm ? "" : "Средний";
+    const titleDefaultfValue = isNewForm ? "" : "Title of Task";
+    const descriptionDefaultfValue = isNewForm
         ? ""
         : "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.";
-    const ends_inDefaultValue = new Date();
+    const ends_inDefaultValue = formattedDate();
     return (
         <>
             <Form
@@ -33,41 +65,111 @@ export const FormTask = observer(({ isNewForm }) => {
                 layout="horizontal"
                 onFinish={onFinish}
                 initialValues={{
-                    director: {
-                        currency: `${directorDefaultfValue}`,
+                    author: {
+                        content: `${authorDefaultfValue}`,
                     },
                     inspector: {
-                        currency: `${inspectorDefaultfValue}`,
+                        content: `${inspectorDefaultfValue}`,
                     },
                     priority: {
-                        currency: `${priorityDefaultfValue}`,
+                        content: `${priorityDefaultfValue}`,
                     },
                     title: `${titleDefaultfValue}`,
                     description: `${descriptionDefaultfValue}`,
                     ends_in: dayjs(`${ends_inDefaultValue}`, dateFormat),
                 }}
             >
-                <Form.Item name="director" label="Кем выдано">
+                <Form.Item
+                    name="author"
+                    label="Кем выдано"
+                    rules={[
+                        {
+                            required: true,
+                        },
+                        () => ({
+                            validator(_, value) {
+                                if (value.content) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(
+                                    new Error(`Выберите выдающего`)
+                                );
+                            },
+                        }),
+                    ]}
+                >
                     <SelectValues optionValues={usersNames} />
                 </Form.Item>
-                <Form.Item name="inspector" label="Ответственный">
+                <Form.Item
+                    name="inspector"
+                    label="Ответственный"
+                    rules={[
+                        {
+                            required: true,
+                        },
+                        () => ({
+                            validator(_, value) {
+                                if (value.content) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(
+                                    new Error(`Выберите ответсвенного`)
+                                );
+                            },
+                        }),
+                    ]}
+                >
                     <SelectValues optionValues={usersNames} />
                 </Form.Item>
-                <Form.Item name="priority" label="Приоритет">
+                <Form.Item
+                    name="priority"
+                    label="Приоритет"
+                    rules={[
+                        {
+                            required: true,
+                        },
+                        () => ({
+                            validator(_, value) {
+                                if (value.content) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(
+                                    new Error(`Выберите приоритет`)
+                                );
+                            },
+                        }),
+                    ]}
+                >
                     <SelectValues optionValues={priorities} />
                 </Form.Item>
-                <Form.Item name="title" label="Поручается">
+                <Form.Item
+                    name="title"
+                    label="Поручается"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Введите название задачи",
+                        },
+                    ]}
+                >
                     <Input />
                 </Form.Item>
-                <Form.Item name="description" label="Описание задачи">
-                    <TextArea />
+                <Form.Item
+                    name="description"
+                    label="Описание задачи"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Введите описание задачи",
+                        },
+                    ]}
+                >
+                    <Input.TextArea showCount maxLength={254} />
                 </Form.Item>
-                <Form.Item name="ends_in" label="Выполнить до">
+                <Form.Item name="ends_in" label="Выполнить до" {...config}>
                     <DatePicker format={dateFormat} />
                 </Form.Item>
-                {ex ? (
-                    ""
-                ) : (
+                {isNewForm ? null : (
                     <Form.Item>
                         <Space>
                             <span>
@@ -81,10 +183,9 @@ export const FormTask = observer(({ isNewForm }) => {
                         </Space>
                     </Form.Item>
                 )}
-
                 <Form.Item>
                     <Flex justify="flex-end">
-                        <ButtonsForModalWindow isNewForm={ex} />
+                        <ButtonsForModalWindow isNewForm={isNewForm} />
                     </Flex>
                 </Form.Item>
             </Form>

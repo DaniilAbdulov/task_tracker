@@ -5,35 +5,41 @@ import { observer } from "mobx-react-lite";
 const { Option } = Select;
 export const SelectValues = observer(
     ({ value = {}, onChange, optionValues }) => {
-        const [currency, setCurrency] = useState("");
+        const isUsersArray = optionValues[0].full_name;
+        const [content, setContent] = useState("");
 
         const triggerChange = (changedValue) => {
             onChange?.({
-                currency,
+                content,
                 ...value,
                 ...changedValue,
             });
         };
-
-        const onCurrencyChange = (newCurrency) => {
-            if (!("currency" in value)) {
-                setCurrency(newCurrency);
+        const onContentChange = (newContent) => {
+            if (!newContent) {
+                console.log("Значение пустое");
+            }
+            if (!("content" in value)) {
+                setContent(newContent);
             }
             triggerChange({
-                currency: newCurrency,
+                content: newContent,
             });
         };
 
         return (
             <Space>
                 <Select
-                    value={value.currency || currency}
-                    onChange={onCurrencyChange}
+                    value={value.content || content}
+                    onChange={onContentChange}
                     style={{ minWidth: 250 }}
                 >
                     {optionValues.map((item) => {
                         return (
-                            <Option key={item.id} value={item.value}>
+                            <Option
+                                key={item.id}
+                                value={isUsersArray ? item.id : item.value}
+                            >
                                 {item.value}
                             </Option>
                         );
