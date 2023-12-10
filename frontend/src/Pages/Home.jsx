@@ -5,7 +5,7 @@ import ModalWindow from "../components/ModalWindow";
 import { Segmets } from "../components/UI/Segmets";
 import { observer } from "mobx-react-lite";
 import { auth } from "../store/auth";
-import { FormTask } from "../components/FormTask";
+import { CreateNewTaskForm } from "../components/CreateNewTaskForm";
 const { Content } = Layout;
 export const Home = observer(() => {
     const isDirector = auth.isDirector;
@@ -35,7 +35,7 @@ export const Home = observer(() => {
                     visible={showCreateTaskModal}
                     setVisible={setShowCreateTaskModal}
                 >
-                    <FormTask isNewForm={true} />
+                    <CreateNewTaskForm isNewForm={true} />
                 </ModalWindow>
                 <TasksTable />
             </div>

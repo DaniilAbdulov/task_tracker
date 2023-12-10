@@ -8,7 +8,7 @@ import { tasks } from "../data/tasks";
 import { users } from "../data/users";
 import { observer } from "mobx-react-lite";
 import { auth } from "../store/auth";
-import { FormTask } from "./FormTask";
+import { EditTaskForm } from "./EditTaskForm";
 //данные для таблицы
 const data = getWorkData(tasks, users);
 export const TasksTable = observer(() => {
@@ -127,7 +127,7 @@ export const TasksTable = observer(() => {
                 visible={showCreateTaskModal}
                 setVisible={setShowCreateTaskModal}
             >
-                <FormTask isNewForm={false} />
+                <EditTaskForm isNewForm={false} />
             </ModalWindow>
         </>
     );
