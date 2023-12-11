@@ -9,7 +9,6 @@ const generateJwt = (id, login, role) => {
 class UserController {
     async login(req, res) {
         try {
-            console.log(req.body);
             const { login, password } = req.body;
             // const findUser = await pool.query(
             //     "SELECT * FROM users WHERE nickname = $1",
@@ -27,14 +26,14 @@ class UserController {
             // }
             // const token = generateJwt(user.id, user.email, user.role);
             const user = {
-                login,
-                password,
+                id: 1,
+                full_name: "Хусаинов Ильдар Борисович",
                 role: "director",
             };
 
-            const token = generateJwt(1, login, "employee");
+            const token = generateJwt(user.id, login, user.role);
             setTimeout(() => {
-                // return res.status(404).json({ message: "Неверный пароль" });
+                // return res.status(404).json({ message: "Неверный логин" });
                 return res.json({ token, user });
             }, 2000);
         } catch (error) {
@@ -43,7 +42,6 @@ class UserController {
         }
     }
     async check(req, res) {
-        console.log(req.user);
         const { login, role } = req.user;
         // const findUser = await pool.query("SELECT * FROM users WHERE id = $1", [
         //     req.user.id,
@@ -54,10 +52,11 @@ class UserController {
         // const user = findUser.rows[0];
         const user = {
             id: 1,
-            login,
-            role,
+            full_name: "Хусаинов Ильдар Борисович",
+            role: "employee",
         };
-        const token = generateJwt(1, login, role);
+
+        const token = generateJwt(user.id, login, user.role);
         setTimeout(() => {
             return res.json({ token, user });
         }, 2000);

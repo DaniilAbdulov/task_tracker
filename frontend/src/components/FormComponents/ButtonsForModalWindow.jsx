@@ -3,38 +3,34 @@ import { Button, Space } from "antd";
 import { observer } from "mobx-react-lite";
 import { auth } from "../../store/auth";
 import { tasks } from "../../store/tasks";
+import { useState } from "react";
 
 export const ButtonsForModalWindow = observer(({ isNewForm }) => {
+    const [taskId, setTaskId] = useState(tasks.selectedTask.id);
     const isDirector = auth.isDirector;
     const action = isDirector ? (isNewForm ? "create" : "edit") : "check";
     const taskStatus = tasks.currentStatus;
+    const changeTaskDataLoading = tasks.changeTaskDataLoading;
     //actions create edit check
     // const [loading, setLoading] = useState(false);
-    const handleAccepted = () => {
-        alert("Accepted");
-        //setVisible(false);
+    const handleChangeStatus = (taskId, key) => {
+        // alert(`Change status ${taskId} task on ${key}`);
+        tasks.changeTaskStatus(taskId, key);
     };
-    const handleDone = () => {
-        alert("Done");
-        //setVisible(false);
-    };
-    const handleCancel = () => {
-        alert("Cancel");
-        //setVisible(false);
-    };
+
     const handleCreate = () => {
         alert("Create");
         //setVisible(false);
     };
     const handleChange = () => {
-        alert("Change");
+        alert(`Изменить задачу`);
         //setVisible(false);
     };
     const formButtons = [
         {
             id: 1,
-            key: "accepted",
-            clickHandler: handleAccepted,
+            key: "Выполняется",
+            clickHandler: handleChangeStatus,
             type: "default",
             htmlType: "button",
             title: "Принять к исполнению",
@@ -47,8 +43,8 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
         },
         {
             id: 2,
-            key: "done",
-            clickHandler: handleDone,
+            key: "Выполнено",
+            clickHandler: handleChangeStatus,
             type: "primary",
             htmlType: "button",
             title: "Выполнено",
@@ -81,8 +77,8 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
         },
         {
             id: 4,
-            key: "cancel",
-            clickHandler: handleCancel,
+            key: "Отменено",
+            clickHandler: handleChangeStatus,
             type: "default",
             htmlType: "button",
             title: "Отменить задание",
@@ -120,11 +116,10 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                     <Button
                         key={btn.key}
                         type={btn.type}
-                        onClick={() => btn.clickHandler()}
-                        // loading={loading}
+                        onClick={() => btn.clickHandler(taskId, btn.key)}
                         htmlType={btn.htmlType}
                         style={btn.style}
-                        disabled={btn.isDisabled}
+                        disabled={btn.isDisabled || changeTaskDataLoading}
                     >
                         {btn.title}
                     </Button>

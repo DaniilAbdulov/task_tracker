@@ -3,10 +3,11 @@ import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "../../store/auth";
+import { tasks } from "../../store/tasks";
 
 export const Message = observer(() => {
-    const successMessage = auth.successMessage;
-    const errorMessage = auth.errorMessage;
+    const successMessage = auth.successMessage || tasks.successMessage;
+    const errorMessage = auth.errorMessage || tasks.errorMessage;
     useEffect(() => {
         if (successMessage) {
             toast.success(successMessage);
@@ -14,6 +15,7 @@ export const Message = observer(() => {
             toast.error(errorMessage);
         }
         auth.clearMessage();
+        tasks.clearMessage();
     }, [successMessage, errorMessage]);
     return (
         <ToastContainer

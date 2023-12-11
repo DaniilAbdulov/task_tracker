@@ -8,6 +8,7 @@ import etagi_logo from "./asserts/etagi_logo.webp";
 import { LogoutOutlined } from "@ant-design/icons";
 import { useEffect } from "react";
 import { Message } from "./components/UI/Message";
+import { tasks } from "./store/tasks";
 const { Header, Footer } = Layout;
 export const App = observer(() => {
     const isAuth = auth.isAuth;
@@ -16,6 +17,7 @@ export const App = observer(() => {
     } = theme.useToken();
     const logOut = () => {
         auth.logOut();
+        tasks.clearTasksList();
     };
     useEffect(() => {
         auth.authenticateUser();

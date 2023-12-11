@@ -1,9 +1,10 @@
 import { Form, Flex, DatePicker, Input } from "antd";
 import { SelectValues } from "./SelectValues";
-import { usersNames } from "../../data/usersNames";
 import { priorities } from "../../data/priorities";
 import { ButtonsForModalWindow } from "./ButtonsForModalWindow";
 import { StatusSteps } from "./StatusSteps";
+import { observer } from "mobx-react-lite";
+import { employees } from "../../store/employees";
 const dateFormat = "DD/MM/YYYY";
 
 const config = {
@@ -16,7 +17,8 @@ const config = {
     ],
 };
 
-export const FormFields = ({ isNewForm }) => {
+export const FormFields = observer(({ isNewForm }) => {
+    const usersNames = employees.employeesList;
     return (
         <>
             <Form.Item name="author" label="Кем выдано">
@@ -95,4 +97,4 @@ export const FormFields = ({ isNewForm }) => {
             </Form.Item>
         </>
     );
-};
+});

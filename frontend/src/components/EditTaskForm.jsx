@@ -1,38 +1,46 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form } from "antd";
 import { auth } from "../store/auth";
 import dayjs from "dayjs";
 import { observer } from "mobx-react-lite";
 import { formattedDate } from "../functions/formattedDate";
 import { FormFields } from "./FormComponents/FormFields";
+import { tasks } from "../store/tasks";
 
 const dateFormat = "DD/MM/YYYY";
 
-export const EditTaskForm = observer(({ isNewForm }) => {
-    const [loading, setLoading] = useState(true);
+export const EditTaskForm = observer(() => {
     const isDirector = auth.isDirector;
+    const selectedTask = tasks.selectedTask;
+    const {
+        id,
+        author,
+        priority,
+        inspector: { text: inspector_value },
+        title,
+        description,
+        ends_in,
+    } = selectedTask;
+
     const onFinish = (values) => {
         const correctDate = formattedDate(values.ends_in);
-
         const changeOfTask = {
-            id: 2,
+            id,
             title: values.title,
             description: values.description,
             ends_in: correctDate,
             priority: values.priority.content,
-            // author_id: values.author.content,
             inspector_id: values.inspector.content,
         };
         console.log(changeOfTask);
     };
 
-    const authorDefaultfValue = "Выдавший задачу";
-    const inspectorDefaultfValue = "ФИО ответсвенного";
-    const priorityDefaultfValue = "Приоритет из задачи";
-    const titleDefaultfValue = "Title of Task";
-    const descriptionDefaultfValue =
-        "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.";
-    const ends_inDefaultValue = formattedDate();
+    const authorDefaultfValue = author;
+    const inspectorDefaultfValue = inspector_value;
+    const priorityDefaultfValue = priority;
+    const titleDefaultfValue = title;
+    const descriptionDefaultfValue = description;
+    const ends_inDefaultValue = formattedDate(ends_in);
     return (
         <>
             <Form

@@ -1,5 +1,5 @@
 const processStatuses = [
-    { id: 0, val: "wait" },
+    { id: 0, val: "process" },
     { id: 1, val: "process" },
     { id: 2, val: "finish" },
     { id: 3, val: "error" },

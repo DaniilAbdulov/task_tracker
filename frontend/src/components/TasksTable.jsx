@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { ConfigProvider, Spin, Table, Tag } from "antd";
+import { Spin, Table, Tag } from "antd";
 import { compareDate } from "../functions/compareData";
 import ModalWindow from "./ModalWindow";
-import { usersNames } from "../data/usersNames";
-import { getWorkData } from "../data/getWorkData";
-import { tasks } from "../data/tasks";
-import { users } from "../data/users";
+
+import { tasks } from "../store/tasks";
+import { employees } from "../store/employees";
 import { observer } from "mobx-react-lite";
 import { auth } from "../store/auth";
 import { EditTaskForm } from "./EditTaskForm";
-//данные для таблицы
+
 export const TasksTable = observer(() => {
-    const data = getWorkData(tasks, users);
-    console.log(data);
-    //получить после вызова getTasks
+    const data = tasks.tasksList;
+    const tableDataLoading = tasks.tasksListFetching || employees.isLoading;
     const [countTasks, setCountTasks] = useState(20);
-    const [loading, setLoading] = useState(false);
-    const [formLoading, setFormLoading] = useState(false);
+    const formLoading = tasks.taskDataFetching;
+    const formAvailbale = tasks.taskDataIsAvailable;
     const isDirector = auth.isDirector;
     //список работников
-    const filters = usersNames;
+    const filters = employees.employeesList;
     //названия столбоцов и данные в них
     const columns = [
         {
@@ -133,10 +131,15 @@ export const TasksTable = observer(() => {
 
     const handleRowClick = (record) => {
         const id = record.id;
-        setShowModal(true);
+        tasks.getTaskData(id);
         console.log(id);
     };
 
+    useEffect(() => {
+        if (formAvailbale) {
+            setShowModal(true);
+        }
+    }, [formAvailbale]);
     const rowProps = (record) => {
         return {
             onClick: () => handleRowClick(record),
@@ -147,7 +150,8 @@ export const TasksTable = observer(() => {
         //async getTasks(page,pageSize)
     };
     useEffect(() => {
-        //async getTasks(1,10)
+        tasks.getTasksList(1, 10);
+        employees.getEmployeesList();
     }, []);
     return (
         <>
@@ -163,7 +167,7 @@ export const TasksTable = observer(() => {
                 onRow={rowProps}
                 columns={columns}
                 dataSource={data}
-                loading={loading}
+                loading={tableDataLoading}
             ></Table>
 
             {formLoading ? (

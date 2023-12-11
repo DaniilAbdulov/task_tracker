@@ -5,7 +5,10 @@ import { observer } from "mobx-react-lite";
 const { Option } = Select;
 export const SelectValues = observer(
     ({ value = {}, onChange, optionValues }) => {
-        const isUsersArray = optionValues[0].value;
+        //если длина массива 3, то она содержит ФИО
+        const optionValuesLen = optionValues[0].value.split(" ").length;
+        const isUsersArray = optionValuesLen === 3;
+        // const isUsersArray = true;
         const [content, setContent] = useState("");
 
         const triggerChange = (changedValue) => {

@@ -23,14 +23,14 @@ export const CreateNewTaskForm = observer(({ isNewForm }) => {
             priority: values.priority.content,
             status: "К исполнению",
             //id авторизованного руководителя
-            author_id: 1,
+            author_id: auth.userId,
             inspector_id: values.inspector.content,
         };
         console.log(newTask);
         form.resetFields();
     };
 
-    const authorDefaultfValue = "Авторизованный руководитель";
+    const authorDefaultfValue = auth.userFullName;
     const ends_inDefaultValue = formattedDate();
     return (
         <>
