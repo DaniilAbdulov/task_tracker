@@ -1,6 +1,9 @@
 import { Modal } from "antd";
+import { observer } from "mobx-react-lite";
+import { useEffect, useState } from "react";
+import { tasks } from "../store/tasks";
 
-const ModalWindow = ({ visible, setVisible, children }) => {
+const ModalWindow = observer(({ visible, setVisible, children }) => {
     return (
         <div className="modal-window">
             <Modal
@@ -16,5 +19,5 @@ const ModalWindow = ({ visible, setVisible, children }) => {
             </Modal>
         </div>
     );
-};
+});
 export default ModalWindow;

@@ -1,11 +1,9 @@
 export const taskData = {
     id: 777,
     author: "Майк Тайсон",
-    inspector: {
-        id: 12,
-        text: "Абдулов Даниил Билалович",
-        value: "Абдулов Даниил Билалович",
-    },
+    inspector_id: 12,
+    inspector_text: "Абдулов Даниил Билалович",
+    inspector_value: "Абдулов Даниил Билалович",
     priority: "Высокий",
     title: "Задача от Майк Тайсона",
     description: "Покурить с ним травы",

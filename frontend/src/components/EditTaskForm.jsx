@@ -1,5 +1,5 @@
 import React from "react";
-import { Form } from "antd";
+import { Flex, Form, Spin } from "antd";
 import { auth } from "../store/auth";
 import dayjs from "dayjs";
 import { observer } from "mobx-react-lite";
@@ -11,16 +11,18 @@ const dateFormat = "DD/MM/YYYY";
 
 export const EditTaskForm = observer(() => {
     const isDirector = auth.isDirector;
-    const selectedTask = tasks.selectedTask;
+    // const selectedTask = tasks.selectedTask;
+    const changeTaskDataLoading = tasks.changeTaskDataLoading;
     const {
         id,
         author,
         priority,
-        inspector: { text: inspector_value },
+        inspector_id,
+        inspector_value,
         title,
         description,
         ends_in,
-    } = selectedTask;
+    } = tasks.selectedTask;
 
     const onFinish = (values) => {
         const correctDate = formattedDate(values.ends_in);
@@ -30,7 +32,10 @@ export const EditTaskForm = observer(() => {
             description: values.description,
             ends_in: correctDate,
             priority: values.priority.content,
-            inspector_id: values.inspector.content,
+            inspector_id:
+                values.inspector.content === inspector_value
+                    ? inspector_id
+                    : values.inspector.content,
         };
         console.log(changeOfTask);
     };
@@ -46,7 +51,7 @@ export const EditTaskForm = observer(() => {
             <Form
                 name="customized_form_controls"
                 requiredMark={false}
-                disabled={!isDirector}
+                disabled={!isDirector || changeTaskDataLoading}
                 layout="vertical"
                 onFinish={onFinish}
                 initialValues={{

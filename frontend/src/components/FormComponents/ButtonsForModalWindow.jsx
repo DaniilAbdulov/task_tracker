@@ -11,13 +11,9 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
     const action = isDirector ? (isNewForm ? "create" : "edit") : "check";
     const taskStatus = tasks.currentStatus;
     const changeTaskDataLoading = tasks.changeTaskDataLoading;
-    //actions create edit check
-    // const [loading, setLoading] = useState(false);
     const handleChangeStatus = (taskId, key) => {
-        // alert(`Change status ${taskId} task on ${key}`);
         tasks.changeTaskStatus(taskId, key);
     };
-
     const handleCreate = () => {
         alert("Create");
         //setVisible(false);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Spin, Table, Tag } from "antd";
+import { Flex, Spin, Table, Tag } from "antd";
 import { compareDate } from "../functions/compareData";
 import ModalWindow from "./ModalWindow";
 
@@ -13,9 +13,9 @@ export const TasksTable = observer(() => {
     const data = tasks.tasksList;
     const tableDataLoading = tasks.tasksListFetching || employees.isLoading;
     const [countTasks, setCountTasks] = useState(20);
-    const formLoading = tasks.taskDataFetching;
-    const formAvailbale = tasks.taskDataIsAvailable;
+    const taskDataIsAvailable = tasks.taskDataIsAvailable;
     const isDirector = auth.isDirector;
+    const [showEditTaskModal, setShowEditTaskModal] = useState(false);
     //список работников
     const filters = employees.employeesList;
     //названия столбоцов и данные в них
@@ -127,19 +127,13 @@ export const TasksTable = observer(() => {
             dataIndex: "status",
         },
     ];
-    const [showModal, setShowModal] = useState(false);
 
     const handleRowClick = (record) => {
         const id = record.id;
+        setShowEditTaskModal(true);
         tasks.getTaskData(id);
-        console.log(id);
     };
 
-    useEffect(() => {
-        if (formAvailbale) {
-            setShowModal(true);
-        }
-    }, [formAvailbale]);
     const rowProps = (record) => {
         return {
             onClick: () => handleRowClick(record),
@@ -170,13 +164,22 @@ export const TasksTable = observer(() => {
                 loading={tableDataLoading}
             ></Table>
 
-            {formLoading ? (
-                <Spin fullscreen />
-            ) : (
-                <ModalWindow visible={showModal} setVisible={setShowModal}>
+            <ModalWindow
+                visible={showEditTaskModal}
+                setVisible={setShowEditTaskModal}
+            >
+                {taskDataIsAvailable ? (
                     <EditTaskForm isNewForm={false} />
-                </ModalWindow>
-            )}
+                ) : (
+                    <Flex
+                        justify="center"
+                        align="center"
+                        style={{ height: "500px" }}
+                    >
+                        <Spin />
+                    </Flex>
+                )}
+            </ModalWindow>
         </>
     );
 });

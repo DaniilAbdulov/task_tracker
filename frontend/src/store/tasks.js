@@ -2,7 +2,6 @@ import { makeAutoObservable } from "mobx";
 import { API_URL } from "../config";
 import axios from "axios";
 class Tasks {
-    //данные значения нужно получить с backend
     currentStatus = "";
     statusAndDates = [];
     tasksListFetching = false;
@@ -13,7 +12,7 @@ class Tasks {
     successMessage = "";
     tasksList = [];
     selectedTask = {};
-    //данные значения нужно получить с backend
+
     constructor() {
         makeAutoObservable(this);
     }
@@ -78,6 +77,7 @@ class Tasks {
                 },
             });
             this.successMessage = res.data.message;
+            this.taskDataIsAvailable = false;
             this.changeTaskDataLoading = false;
         } catch (error) {
             this.changeTaskDataLoading = false;

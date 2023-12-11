@@ -12,7 +12,7 @@ export const Home = observer(() => {
         token: { colorBgContainer },
     } = theme.useToken();
     const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
-    const [formLoading, setFormLoading] = useState(false);
+
     return (
         <Content style={{ margin: "20px 16px" }}>
             <div
@@ -29,16 +29,14 @@ export const Home = observer(() => {
                 >
                     Создать новую задачу
                 </Button>
-                {formLoading ? (
-                    <Spin fullscreen />
-                ) : (
-                    <ModalWindow
-                        visible={showCreateTaskModal}
-                        setVisible={setShowCreateTaskModal}
-                    >
-                        <CreateNewTaskForm isNewForm={true} />
-                    </ModalWindow>
-                )}
+
+                <ModalWindow
+                    visible={showCreateTaskModal}
+                    setVisible={setShowCreateTaskModal}
+                >
+                    <CreateNewTaskForm isNewForm={true} />
+                </ModalWindow>
+
                 <TasksTable />
             </div>
         </Content>

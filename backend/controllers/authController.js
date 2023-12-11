@@ -53,7 +53,7 @@ class UserController {
         const user = {
             id: 1,
             full_name: "Хусаинов Ильдар Борисович",
-            role: "employee",
+            role: "director",
         };
 
         const token = generateJwt(user.id, login, user.role);

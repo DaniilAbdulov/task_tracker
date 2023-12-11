@@ -38,9 +38,9 @@ class TasksController {
             const { taskId, newStatus } = req.body.params;
             console.log(taskId, newStatus);
             setTimeout(() => {
-                return res
-                    .status(200)
-                    .json({ message: "Статус задания изменен" });
+                return res.status(200).json({
+                    message: `Статус задания - ${newStatus}`,
+                });
             }, 2000);
         } catch (error) {
             console.log(error);

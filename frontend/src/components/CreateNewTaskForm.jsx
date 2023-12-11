@@ -8,8 +8,7 @@ import { FormFields } from "./FormComponents/FormFields";
 
 const dateFormat = "DD/MM/YYYY";
 
-export const CreateNewTaskForm = observer(({ isNewForm }) => {
-    const [loading, setLoading] = useState(false);
+export const CreateNewTaskForm = observer(() => {
     const [form] = Form.useForm();
     const isDirector = auth.isDirector;
     const onFinish = (values) => {
@@ -22,7 +21,6 @@ export const CreateNewTaskForm = observer(({ isNewForm }) => {
             updated_at: formattedDate(),
             priority: values.priority.content,
             status: "К исполнению",
-            //id авторизованного руководителя
             author_id: auth.userId,
             inspector_id: values.inspector.content,
         };
