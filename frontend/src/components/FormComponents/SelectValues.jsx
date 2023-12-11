@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite";
 const { Option } = Select;
 export const SelectValues = observer(
     ({ value = {}, onChange, optionValues }) => {
-        const isUsersArray = optionValues[0].full_name;
+        const isUsersArray = optionValues[0].value;
         const [content, setContent] = useState("");
 
         const triggerChange = (changedValue) => {

@@ -12,6 +12,7 @@ import { EditTaskForm } from "./EditTaskForm";
 //данные для таблицы
 export const TasksTable = observer(() => {
     const data = getWorkData(tasks, users);
+    console.log(data);
     //получить после вызова getTasks
     const [countTasks, setCountTasks] = useState(20);
     const [loading, setLoading] = useState(false);
