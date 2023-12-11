@@ -20,24 +20,23 @@ export const CreateNewTaskForm = observer(({ isNewForm }) => {
             updated_at: formattedDate(),
             priority: values.priority.content,
             status: "К исполнению",
-            author_id: values.author.content,
+            //id авторизованного руководителя
+            author_id: 1,
             inspector_id: values.inspector.content,
         };
         console.log(newTask);
     };
-
+    const authorDefaultfValue = "Авторизованный руководитель";
     const ends_inDefaultValue = formattedDate();
     return (
         <>
             <Form
                 name="customized_form_controls"
                 disabled={!isDirector}
-                layout="horizontal"
+                layout="vertical"
                 onFinish={onFinish}
                 initialValues={{
-                    author: {
-                        content: ``,
-                    },
+                    author: `${authorDefaultfValue}`,
                     inspector: {
                         content: ``,
                     },
@@ -49,7 +48,7 @@ export const CreateNewTaskForm = observer(({ isNewForm }) => {
                     ends_in: dayjs(`${ends_inDefaultValue}`, dateFormat),
                 }}
             >
-                <FormFields />
+                <FormFields isNewForm={true} />
             </Form>
         </>
     );

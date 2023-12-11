@@ -13,19 +13,20 @@ export const EditTaskForm = observer(({ isNewForm }) => {
         const correctDate = formattedDate(values.ends_in);
 
         const changeOfTask = {
+            id: 2,
             title: values.title,
             description: values.description,
             ends_in: correctDate,
             priority: values.priority.content,
-            author_id: values.author.content,
+            // author_id: values.author.content,
             inspector_id: values.inspector.content,
         };
         console.log(changeOfTask);
     };
 
-    const authorDefaultfValue = "Выберите выдающего";
-    const inspectorDefaultfValue = "Выберите ответственного";
-    const priorityDefaultfValue = "Средний";
+    const authorDefaultfValue = "Выдавший задачу";
+    const inspectorDefaultfValue = "ФИО ответсвенного";
+    const priorityDefaultfValue = "Приоритет из задачи";
     const titleDefaultfValue = "Title of Task";
     const descriptionDefaultfValue =
         "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.";
@@ -35,12 +36,10 @@ export const EditTaskForm = observer(({ isNewForm }) => {
             <Form
                 name="customized_form_controls"
                 disabled={!isDirector}
-                layout="horizontal"
+                layout="vertical"
                 onFinish={onFinish}
                 initialValues={{
-                    author: {
-                        content: `${authorDefaultfValue}`,
-                    },
+                    author: `${authorDefaultfValue}`,
                     inspector: {
                         content: `${inspectorDefaultfValue}`,
                     },
@@ -52,7 +51,7 @@ export const EditTaskForm = observer(({ isNewForm }) => {
                     ends_in: dayjs(`${ends_inDefaultValue}`, dateFormat),
                 }}
             >
-                <FormFields />
+                <FormFields isNewForm={false} />
             </Form>
         </>
     );

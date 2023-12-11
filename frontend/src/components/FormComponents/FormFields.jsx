@@ -3,6 +3,7 @@ import { SelectValues } from "./SelectValues";
 import { usersNames } from "../../data/usersNames";
 import { priorities } from "../../data/priorities";
 import { ButtonsForModalWindow } from "./ButtonsForModalWindow";
+import { StatusSteps } from "./StatusSteps";
 const dateFormat = "DD/MM/YYYY";
 const { Text } = Typography;
 const config = {
@@ -14,64 +15,51 @@ const config = {
         },
     ],
 };
-const isNewForm = true;
-export const FormFields = () => {
+
+export const FormFields = ({ isNewForm }) => {
     return (
         <>
-            <Form.Item
-                name="author"
-                label="Кем выдано"
-                rules={[
-                    () => ({
-                        validator(_, value) {
-                            if (value.content) {
-                                return Promise.resolve();
-                            }
-                            return Promise.reject(
-                                new Error(`Выберите выдающего`)
-                            );
-                        },
-                    }),
-                ]}
-            >
-                <SelectValues optionValues={usersNames} />
+            <Form.Item name="author" label="Кем выдано">
+                <Input style={{ width: "250px" }} disabled />
             </Form.Item>
-            <Form.Item
-                name="inspector"
-                label="Ответственный"
-                rules={[
-                    () => ({
-                        validator(_, value) {
-                            if (value.content) {
-                                return Promise.resolve();
-                            }
-                            return Promise.reject(
-                                new Error(`Выберите ответсвенного`)
-                            );
-                        },
-                    }),
-                ]}
-            >
-                <SelectValues optionValues={usersNames} />
-            </Form.Item>
-            <Form.Item
-                name="priority"
-                label="Приоритет"
-                rules={[
-                    () => ({
-                        validator(_, value) {
-                            if (value.content) {
-                                return Promise.resolve();
-                            }
-                            return Promise.reject(
-                                new Error(`Выберите приоритет`)
-                            );
-                        },
-                    }),
-                ]}
-            >
-                <SelectValues optionValues={priorities} />
-            </Form.Item>
+            <Flex justify="space-between">
+                <Form.Item
+                    name="inspector"
+                    label="Ответственный"
+                    rules={[
+                        () => ({
+                            validator(_, value) {
+                                if (value.content) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(
+                                    new Error(`Выберите ответсвенного`)
+                                );
+                            },
+                        }),
+                    ]}
+                >
+                    <SelectValues optionValues={usersNames} />
+                </Form.Item>
+                <Form.Item
+                    name="priority"
+                    label="Приоритет"
+                    rules={[
+                        () => ({
+                            validator(_, value) {
+                                if (value.content) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(
+                                    new Error(`Выберите приоритет`)
+                                );
+                            },
+                        }),
+                    ]}
+                >
+                    <SelectValues optionValues={priorities} />
+                </Form.Item>
+            </Flex>
             <Form.Item
                 name="title"
                 label="Поручается"
@@ -99,20 +87,7 @@ export const FormFields = () => {
             <Form.Item name="ends_in" label="Выполнить до" {...config}>
                 <DatePicker format={dateFormat} />
             </Form.Item>
-            {isNewForm ? null : (
-                <Form.Item>
-                    <Space>
-                        <span>
-                            <Text strong>Дата изменения: </Text>
-                            <Text>2023-12-07</Text>
-                        </span>
-                        <span>
-                            <Text strong>Статус: </Text>
-                            <Text>К выполнению</Text>
-                        </span>
-                    </Space>
-                </Form.Item>
-            )}
+            {!isNewForm && <StatusSteps />}
             <Form.Item>
                 <Flex justify="flex-end">
                     <ButtonsForModalWindow isNewForm={isNewForm} />

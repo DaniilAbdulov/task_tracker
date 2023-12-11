@@ -2,10 +2,12 @@
 import { Button, Space } from "antd";
 import { observer } from "mobx-react-lite";
 import { auth } from "../../store/auth";
+import { tasks } from "../../store/tasks";
 
 export const ButtonsForModalWindow = observer(({ isNewForm }) => {
     const isDirector = auth.isDirector;
     const action = isDirector ? (isNewForm ? "create" : "edit") : "check";
+    const taskStatus = tasks.currentStatus;
     //actions create edit check
     // const [loading, setLoading] = useState(false);
     const handleAccepted = () => {
@@ -41,6 +43,7 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                 color: "",
                 backgroundColor: "",
             },
+            isDisabled: taskStatus === "К исполнению" ? false : true,
         },
         {
             id: 2,
@@ -54,6 +57,10 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                 color: "",
                 backgroundColor: "green",
             },
+            isDisabled:
+                taskStatus === "Выполняется" || taskStatus === "К исполнению"
+                    ? false
+                    : true,
         },
         {
             id: 3,
@@ -67,6 +74,10 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                 color: "white",
                 backgroundColor: "blue",
             },
+            isDisabled:
+                taskStatus === "К исполнению" || taskStatus === "Выполняется"
+                    ? false
+                    : true,
         },
         {
             id: 4,
@@ -80,6 +91,10 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                 color: "red",
                 backgroundColor: "",
             },
+            isDisabled:
+                taskStatus === "К исполнению" || taskStatus === "Выполняется"
+                    ? false
+                    : true,
         },
         {
             id: 5,
@@ -93,6 +108,7 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                 color: "",
                 backgroundColor: "blue",
             },
+            isDisabled: true,
         },
     ];
 
@@ -108,7 +124,7 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                         // loading={loading}
                         htmlType={btn.htmlType}
                         style={btn.style}
-                        disabled={false}
+                        disabled={btn.isDisabled}
                     >
                         {btn.title}
                     </Button>
