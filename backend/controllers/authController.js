@@ -29,12 +29,12 @@ class UserController {
             const user = {
                 login,
                 password,
-                role: "employee",
+                role: "director",
             };
-            res.status(404).json({ message: "Неверный пароль" });
-            return;
+
             const token = generateJwt(1, login, "employee");
             setTimeout(() => {
+                // return res.status(404).json({ message: "Неверный пароль" });
                 return res.json({ token, user });
             }, 2000);
         } catch (error) {
@@ -43,7 +43,8 @@ class UserController {
         }
     }
     async check(req, res) {
-        console.log("here");
+        console.log(req.user);
+        const { login, role } = req.user;
         // const findUser = await pool.query("SELECT * FROM users WHERE id = $1", [
         //     req.user.id,
         // ]);
@@ -51,10 +52,15 @@ class UserController {
         //     return res.status(404).json({ message: "Проблема с токеном" });
         // }
         // const user = findUser.rows[0];
-        // const token = generateJwt(user.id, user.email, user.role);
-        // setTimeout(() => {
-        //     return res.json({ token, user });
-        // }, 1000);
+        const user = {
+            id: 1,
+            login,
+            role,
+        };
+        const token = generateJwt(1, login, role);
+        setTimeout(() => {
+            return res.json({ token, user });
+        }, 2000);
     }
 }
 

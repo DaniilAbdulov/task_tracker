@@ -14,6 +14,7 @@ class Auth {
     isDirector = false;
     isAuth = false;
     isLoading = false;
+    isFetchingTokenLoading = false;
     successMessage = "";
     errorMessage = "";
     constructor() {
@@ -41,8 +42,16 @@ class Auth {
         initializeAxiosHeaders(token);
         if (token) {
             try {
-                const res = await axios.get(`${API_URL}/user/auth`);
-
+                this.isFetchingTokenLoading = true;
+                const res = await axios.get(`${API_URL}/auth`);
+                const userRole = res.data.user.role;
+                this.isAuth = true;
+                if (userRole === "director") {
+                    this.isDirector = true;
+                } else {
+                    this.isEmployee = true;
+                }
+                this.isFetchingTokenLoading = false;
                 return res.data;
             } catch (error) {
                 console.log(error);
@@ -52,7 +61,7 @@ class Auth {
     async loginUser(candidat) {
         this.isLoading = true;
         try {
-            const res = await axios.post(`${API_URL}/user/login`, candidat);
+            const res = await axios.post(`${API_URL}/auth/login`, candidat);
             console.log(res.data);
             const userRole = res.data.user.role;
             this.isAuth = true;
@@ -63,6 +72,9 @@ class Auth {
             }
             this.isLoading = false;
             this.successMessage = "Вход выполнен успешно";
+            const token = res.data.token;
+            localStorage.setItem("bgtrackerjwt", token);
+            initializeAxiosHeaders(token);
             return res.data;
         } catch (error) {
             this.isLoading = false;

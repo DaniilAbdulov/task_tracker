@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 export default function authMiddleware(req, res, next) {
+    console.log("here");
     if (req.method === "OPTIONS") {
         next();
     }

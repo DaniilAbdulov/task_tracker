@@ -18,6 +18,7 @@ const onFinishFailed = (errorInfo) => {
 
 export const Auth = observer(() => {
     const authLoading = auth.isLoading;
+    const isFetchingTokenLoading = auth.isFetchingTokenLoading;
     return (
         <Flex
             justify="center"
@@ -27,6 +28,7 @@ export const Auth = observer(() => {
             className="auth-form"
         >
             <Form
+                disabled={isFetchingTokenLoading}
                 align="center"
                 name="normal_login"
                 className="login-form"
