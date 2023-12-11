@@ -39,13 +39,10 @@ export const SelectValues = observer(
                     {optionValues.map((item) => {
                         console.log(item);
                         return (
-                            // <Option
-                            //     key={item.id}
-                            //     value={isUsersArray ? item.id : item.value}
-                            // >
-                            //     {item.value}
-                            // </Option>
-                            <Option key={item.id} value={item.id}>
+                            <Option
+                                key={item.id}
+                                value={isUsersArray ? item.id : item.value}
+                            >
                                 {item.value}
                             </Option>
                         );
