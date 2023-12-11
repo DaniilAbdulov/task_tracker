@@ -6,6 +6,8 @@ import { observer } from "mobx-react-lite";
 import { auth } from "./store/auth";
 import etagi_logo from "./asserts/etagi_logo.webp";
 import { LogoutOutlined } from "@ant-design/icons";
+import { useEffect } from "react";
+import { Message } from "./components/UI/Message";
 const { Header, Footer } = Layout;
 export const App = observer(() => {
     const isAuth = auth.isAuth;
@@ -13,8 +15,11 @@ export const App = observer(() => {
         token: { colorBgContainer },
     } = theme.useToken();
     const logOut = () => {
-        auth.changeIsAuth();
+        auth.logOut();
     };
+    useEffect(() => {
+        auth.authenticateUser();
+    }, []);
     return (
         <BrowserRouter>
             <ConfigProvider
@@ -55,6 +60,7 @@ export const App = observer(() => {
                     <Layout>
                         <div className="App">
                             <Router />
+                            <Message />
                         </div>
                     </Layout>
                     <Footer style={{ textAlign: "center" }}>

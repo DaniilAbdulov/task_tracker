@@ -6,14 +6,18 @@ import { auth } from "../store/auth";
 import Title from "antd/es/typography/Title";
 
 const onFinish = (values) => {
-    console.log("Success:", values);
-    auth.changeIsAuth();
+    const candidat = {
+        login: values.login,
+        password: values.password,
+    };
+    auth.loginUser(candidat);
 };
 const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
 };
 
 export const Auth = observer(() => {
+    const authLoading = auth.isLoading;
     return (
         <Flex
             justify="center"
@@ -40,7 +44,7 @@ export const Auth = observer(() => {
             >
                 <Title level={3}>Task Tracker</Title>
                 <Form.Item
-                    name="username"
+                    name="login"
                     rules={[
                         {
                             required: true,
@@ -50,6 +54,7 @@ export const Auth = observer(() => {
                     ]}
                 >
                     <Input
+                        disabled={authLoading}
                         prefix={
                             <UserOutlined className="site-form-item-icon" />
                         }
@@ -72,11 +77,13 @@ export const Auth = observer(() => {
                         }
                         type="password"
                         placeholder="Пароль"
+                        disabled={authLoading}
                     />
                 </Form.Item>
 
                 <Form.Item>
                     <Button
+                        loading={authLoading}
                         type="primary"
                         htmlType="submit"
                         className="login-form-button"
