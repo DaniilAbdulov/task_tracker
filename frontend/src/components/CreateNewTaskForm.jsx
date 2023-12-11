@@ -8,7 +8,9 @@ import { FormFields } from "./FormComponents/FormFields";
 const dateFormat = "DD/MM/YYYY";
 
 export const CreateNewTaskForm = observer(({ isNewForm }) => {
+    const [form] = Form.useForm();
     const isDirector = auth.isDirector;
+
     const onFinish = (values) => {
         const correctDate = formattedDate(values.ends_in);
 
@@ -25,12 +27,15 @@ export const CreateNewTaskForm = observer(({ isNewForm }) => {
             inspector_id: values.inspector.content,
         };
         console.log(newTask);
+        form.resetFields();
     };
+
     const authorDefaultfValue = "Авторизованный руководитель";
     const ends_inDefaultValue = formattedDate();
     return (
         <>
             <Form
+                form={form}
                 name="customized_form_controls"
                 disabled={!isDirector}
                 layout="vertical"

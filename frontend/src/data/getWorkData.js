@@ -1,7 +1,6 @@
 export function getWorkData(tasks, users) {
     return tasks.map((task) => {
         const inspector = users.find((user) => user.id === task.inspector_id);
-
         return {
             id: task.id,
             title: task.title,

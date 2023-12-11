@@ -24,7 +24,7 @@ export const TasksTable = observer(() => {
             render: (text, status) => {
                 const isDone = status.status === "Выполнено";
                 //если текущая дата меньше, чем дата завершения задачи, то функция вернет true
-                const toLate = compareDate(status.ends_in);
+                const toLate = compareDate(status.ends_in) < 0;
                 return (
                     <p
                         style={{
@@ -65,7 +65,7 @@ export const TasksTable = observer(() => {
             render: (text, status) => {
                 const isDone = status.status === "Выполнена";
                 //если текущая дата меньше, чем дата завершения задачи, то функция вернет true
-                const toLate = compareDate(status.ends_in);
+                const toLate = compareDate(status.ends_in) < 0;
                 return (
                     <p
                         style={{
@@ -75,6 +75,29 @@ export const TasksTable = observer(() => {
                         {text}
                     </p>
                 );
+            },
+            filters: [
+                { text: "Срок прошел", value: "toolate" },
+                { text: "Сегодня", value: "today" },
+                { text: "1-7 дней", value: "weekly" },
+                { text: "Больше недели", value: "month" },
+            ],
+            filterMode: "menu",
+            onFilter: (value, record) => {
+                const daysDiff = compareDate(record.ends_in);
+                switch (value) {
+                    case "toolate":
+                        return daysDiff < 0;
+                    case "today":
+                        return daysDiff === 0;
+                    case "weekly":
+                        return daysDiff >= 1 && daysDiff <= 7;
+                    case "month":
+                        return daysDiff > 7;
+                    default:
+                        break;
+                }
+                return false;
             },
         },
         {

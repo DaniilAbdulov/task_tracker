@@ -35,6 +35,7 @@ export const EditTaskForm = observer(({ isNewForm }) => {
         <>
             <Form
                 name="customized_form_controls"
+                requiredMark={false}
                 disabled={!isDirector}
                 layout="vertical"
                 onFinish={onFinish}

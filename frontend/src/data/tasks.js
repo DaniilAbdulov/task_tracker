@@ -4,7 +4,7 @@ export const tasks = [
         title: "Продажа квартиры",
         description:
             "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-        ends_in: "08/12/2023",
+        ends_in: "08/12/2024",
         created_at: "06/12/2023",
         updated_at: "07/12/2023",
         priority: "Высокий",
@@ -17,7 +17,7 @@ export const tasks = [
         title: "Продажа дома",
         description:
             "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-        ends_in: "2023-12-10",
+        ends_in: "19/12/2023",
         created_at: "07/12/2023",
         updated_at: "08/12/2023",
         priority: "Средний",
@@ -30,7 +30,7 @@ export const tasks = [
         title: "Продажа дачи",
         description:
             "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-        ends_in: "2023-12-16",
+        ends_in: "18/12/2023",
         created_at: "07/12/2023",
         updated_at: "07/12/2023",
         priority: "Низкий",
@@ -43,7 +43,7 @@ export const tasks = [
         title: "Продажа участка",
         description:
             "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-        ends_in: "08/12/2023",
+        ends_in: "17/12/2023",
         created_at: "06/12/2023",
         updated_at: "07/12/2023",
         priority: "Высокий",
@@ -56,7 +56,7 @@ export const tasks = [
         title: "Продажа коммерческого помещения",
         description:
             "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-        ends_in: "2023-12-25",
+        ends_in: "11/12/2023",
         created_at: "06/12/2023",
         updated_at: "07/12/2023",
         priority: "Средний",
@@ -69,7 +69,7 @@ export const tasks = [
         title: "Аренда квартиры",
         description:
             "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-        ends_in: "08/12/2023",
+        ends_in: "10/12/2023",
         created_at: "06/12/2023",
         updated_at: "07/12/2023",
         priority: "Высокий",
@@ -82,7 +82,7 @@ export const tasks = [
         title: "Аренда дома",
         description:
             "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-        ends_in: "2023-12-10",
+        ends_in: "31/12/2023",
         created_at: "07/12/2023",
         updated_at: "08/12/2023",
         priority: "Средний",
@@ -95,7 +95,7 @@ export const tasks = [
         title: "Аренда дачи",
         description:
             "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-        ends_in: "2023-12-16",
+        ends_in: "31/12/2023",
         created_at: "07/12/2023",
         updated_at: "07/12/2023",
         priority: "Низкий",
@@ -121,7 +121,7 @@ export const tasks = [
         title: "Аренда коммерческого помещения",
         description:
             "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-        ends_in: "2023-12-25",
+        ends_in: "25/12/2023",
         created_at: "06/12/2023",
         updated_at: "07/12/2023",
         priority: "Средний",
@@ -134,7 +134,7 @@ export const tasks = [
         title: "Продажа квартиры",
         description:
             "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-        ends_in: "08/12/2023",
+        ends_in: "12/12/2024",
         created_at: "06/12/2023",
         updated_at: "07/12/2023",
         priority: "Высокий",
@@ -147,7 +147,7 @@ export const tasks = [
         title: "Продажа дома",
         description:
             "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-        ends_in: "2023-12-10",
+        ends_in: "10/12/2023",
         created_at: "07/12/2023",
         updated_at: "08/12/2023",
         priority: "Средний",
@@ -160,7 +160,7 @@ export const tasks = [
         title: "Продажа дачи",
         description:
             "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-        ends_in: "2023-12-16",
+        ends_in: "16/12/2023",
         created_at: "07/12/2023",
         updated_at: "07/12/2023",
         priority: "Низкий",
@@ -186,7 +186,7 @@ export const tasks = [
         title: "Продажа коммерческого помещения",
         description:
             "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-        ends_in: "2023-12-25",
+        ends_in: "25/12/2023",
         created_at: "06/12/2023",
         updated_at: "07/12/2023",
         priority: "Средний",
@@ -212,7 +212,7 @@ export const tasks = [
         title: "Аренда дома",
         description:
             "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-        ends_in: "2023-12-10",
+        ends_in: "10/12/2023",
         created_at: "07/12/2023",
         updated_at: "08/12/2023",
         priority: "Средний",
@@ -225,7 +225,7 @@ export const tasks = [
         title: "Аренда дачи",
         description:
             "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-        ends_in: "2023-12-16",
+        ends_in: "16/12/2023",
         created_at: "07/12/2023",
         updated_at: "07/12/2023",
         priority: "Низкий",
@@ -251,7 +251,7 @@ export const tasks = [
         title: "Аренда коммерческого помещения",
         description:
             "Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.",
-        ends_in: "2023-12-25",
+        ends_in: "25/12/2023",
         created_at: "06/12/2023",
         updated_at: "07/12/2023",
         priority: "Средний",

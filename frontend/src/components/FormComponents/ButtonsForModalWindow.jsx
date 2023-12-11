@@ -108,7 +108,7 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                 color: "",
                 backgroundColor: "blue",
             },
-            isDisabled: true,
+            isDisabled: false,
         },
     ];
 
