@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Table, Tag } from "antd";
+import React, { useEffect, useState } from "react";
+import { ConfigProvider, Spin, Table, Tag } from "antd";
 import { compareDate } from "../functions/compareData";
 import ModalWindow from "./ModalWindow";
 import { usersNames } from "../data/usersNames";
@@ -10,8 +10,12 @@ import { observer } from "mobx-react-lite";
 import { auth } from "../store/auth";
 import { EditTaskForm } from "./EditTaskForm";
 //данные для таблицы
-const data = getWorkData(tasks, users);
 export const TasksTable = observer(() => {
+    const data = getWorkData(tasks, users);
+    //получить после вызова getTasks
+    const [countTasks, setCountTasks] = useState(20);
+    const [loading, setLoading] = useState(false);
+    const [formLoading, setFormLoading] = useState(false);
     const isDirector = auth.isDirector;
     //список работников
     const filters = usersNames;
@@ -124,34 +128,50 @@ export const TasksTable = observer(() => {
             dataIndex: "status",
         },
     ];
-    const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
     const handleRowClick = (record) => {
         const id = record.id;
-        setShowCreateTaskModal(true);
+        setShowModal(true);
         console.log(id);
     };
 
-    const rowProps = (record, rowIndex) => {
+    const rowProps = (record) => {
         return {
             onClick: () => handleRowClick(record),
         };
     };
+    const onPageChange = (page, pageSize) => {
+        console.log(page, pageSize);
+        //async getTasks(page,pageSize)
+    };
+    useEffect(() => {
+        //async getTasks(1,10)
+    }, []);
     return (
         <>
             <Table
+                pagination={{
+                    showSizeChanger: true,
+                    onChange: onPageChange,
+                    defaultCurrent: 1,
+                    total: countTasks,
+                    pageSizeOptions: ["10", "20", "30", "50"],
+                }}
                 rowKey="id"
                 onRow={rowProps}
                 columns={columns}
                 dataSource={data}
-                // loading={true}
+                loading={loading}
             ></Table>
-            <ModalWindow
-                visible={showCreateTaskModal}
-                setVisible={setShowCreateTaskModal}
-            >
-                <EditTaskForm isNewForm={false} />
-            </ModalWindow>
+
+            {formLoading ? (
+                <Spin fullscreen />
+            ) : (
+                <ModalWindow visible={showModal} setVisible={setShowModal}>
+                    <EditTaskForm isNewForm={false} />
+                </ModalWindow>
+            )}
         </>
     );
 });

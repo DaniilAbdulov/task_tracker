@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form } from "antd";
 import { auth } from "../store/auth";
 import dayjs from "dayjs";
 import { observer } from "mobx-react-lite";
 import { formattedDate } from "../functions/formattedDate";
 import { FormFields } from "./FormComponents/FormFields";
+
 const dateFormat = "DD/MM/YYYY";
 
 export const EditTaskForm = observer(({ isNewForm }) => {
+    const [loading, setLoading] = useState(true);
     const isDirector = auth.isDirector;
     const onFinish = (values) => {
         const correctDate = formattedDate(values.ends_in);

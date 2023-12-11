@@ -1,11 +1,11 @@
-import { Form, Typography, Flex, DatePicker, Space, Input } from "antd";
+import { Form, Flex, DatePicker, Input } from "antd";
 import { SelectValues } from "./SelectValues";
 import { usersNames } from "../../data/usersNames";
 import { priorities } from "../../data/priorities";
 import { ButtonsForModalWindow } from "./ButtonsForModalWindow";
 import { StatusSteps } from "./StatusSteps";
 const dateFormat = "DD/MM/YYYY";
-const { Text } = Typography;
+
 const config = {
     rules: [
         {
