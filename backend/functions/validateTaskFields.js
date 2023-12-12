@@ -10,8 +10,6 @@ export function validateTaskFields(task) {
     }
 
     // Проверяем, что можно создать дату из ends_in, created_at, updated_at
-    console.log();
-    console.log(Date.parse(task.ends_in));
     if (
         isNaN(Date.parse(task.ends_in)) ||
         isNaN(Date.parse(task.created_at)) ||

@@ -14,6 +14,8 @@ export const EditTaskForm = observer(() => {
     // const isDirector = auth.isDirector;
     const isLoading = tasks.taskLoading;
     const taskId = tasks.selectedTask.id;
+    const formAvailabale = auth.userFullName === tasks.selectedTask.author;
+
     // const {
     //     id,
     //     author,
@@ -43,18 +45,19 @@ export const EditTaskForm = observer(() => {
         ends_in: formattedDate(tasks.selectedTask.ends_in),
     };
     const onFinish = (values) => {
-        const correctDate = formattedDate(values.ends_in);
-        const updated_at = formattedDate(new Date());
+        // const correctDate = formattedDate(values.ends_in);
+        // const updated_at = formattedDate(new Date());
         const changeOfTask = {
             title: values.title,
             description: values.description,
-            ends_in: correctDate,
+            // ends_in: correctDate,
+            ends_in: values.ends_in,
             priority: values.priority.content,
             inspector_id:
                 values.inspector.content === defaultValues.inspector_value
                     ? defaultValues.inspector_id
                     : values.inspector.content,
-            updated_at,
+            updated_at: new Date(),
         };
         const formIsChaged = compareObjects(defaultValues, changeOfTask);
         //функция compareObjects проверяет, изменилось ли хоть одно поле
@@ -69,7 +72,7 @@ export const EditTaskForm = observer(() => {
             <Form
                 name="customized_form_controls"
                 requiredMark={false}
-                disabled={isLoading}
+                disabled={isLoading || !formAvailabale}
                 layout="vertical"
                 onFinish={onFinish}
                 initialValues={{

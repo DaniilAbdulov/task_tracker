@@ -2,6 +2,7 @@ import { formattedTaskData } from "../data/formattedTaskData.js";
 import { db } from "../db/db.js";
 // import { taskData } from "../data/taskData.js";
 import { getValuesForStatusSteps } from "../functions/getValuesForStatusSteps.js";
+import { validateChangedTaskFields } from "../functions/validateChangedTaskFields.js";
 import { validateTaskFields } from "../functions/validateTaskFields.js";
 class TasksController {
     async getTasksList(req, res) {
@@ -100,7 +101,7 @@ class TasksController {
                 selectedTask.updated_at
             );
             const currentStatus = selectedTask.status;
-
+            console.log(selectedTask);
             setTimeout(() => {
                 return res
                     .status(200)
@@ -198,7 +199,37 @@ class TasksController {
     }
     async changeTask(req, res) {
         try {
-            console.log(req.body.params);
+            const taskId = parseInt(req.body.params.taskId);
+            if (typeof taskId !== "number" || taskId <= 0) {
+                throw new Error("Некорректные id задачи");
+            }
+            const dataIsValid = validateChangedTaskFields(
+                req.body.params.newValues
+            );
+            if (!dataIsValid) {
+                throw new Error("Данные из формы не корректны");
+            }
+            const {
+                title,
+                description,
+                ends_in,
+                updated_at,
+                priority,
+                inspector_id,
+            } = dataIsValid;
+            const tryToChangeTask = await db("tasks")
+                .where("id", "=", taskId)
+                .update({
+                    title: title,
+                    description: description,
+                    ends_in: ends_in,
+                    updated_at: updated_at,
+                    priority: priority,
+                    inspector_id: inspector_id,
+                });
+            if (!tryToChangeTask) {
+                throw new Error("Ошибка изменения задачи");
+            }
             setTimeout(() => {
                 return res.status(200).json({
                     message: `Задача Изменена`,
