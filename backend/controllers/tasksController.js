@@ -1,4 +1,4 @@
-import { formattedTaskData } from "../data/formattedTaskData.js";
+import { formattedTaskData } from "../functions/formattedTaskData.js";
 import { db } from "../db/db.js";
 // import { taskData } from "../data/taskData.js";
 import { getValuesForStatusSteps } from "../functions/getValuesForStatusSteps.js";
