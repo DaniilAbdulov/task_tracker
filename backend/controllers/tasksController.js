@@ -23,7 +23,7 @@ class TasksController {
                     "t.status",
                     "t.status",
                     db.raw(
-                        "CONCAT(u.first_name, ' ', u.last_name, ' ', COALESCE(u.third_name,'')) AS inspector"
+                        "CONCAT(u.last_name, ' ', u.first_name, ' ', COALESCE(u.third_name,'')) AS inspector"
                     ),
                 ])
                 .from("tasks as t")
@@ -74,11 +74,11 @@ class TasksController {
                 .select(
                     "t.id",
                     db.raw(
-                        "CONCAT(a.first_name, ' ', a.last_name, ' ', COALESCE(a.third_name, '')) AS author"
+                        "CONCAT(a.last_name, ' ', a.first_name, ' ', COALESCE(a.third_name, '')) AS author"
                     ),
                     "t.inspector_id",
                     db.raw(
-                        "CONCAT(i.first_name, ' ', i.last_name, ' ', COALESCE(i.third_name, '')) AS inspector"
+                        "CONCAT(i.last_name, ' ', i.first_name, ' ', COALESCE(i.third_name, '')) AS inspector"
                     ),
                     "t.priority",
                     "t.title",

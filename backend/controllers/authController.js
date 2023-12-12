@@ -23,7 +23,7 @@ class UserController {
                 .select(
                     "*",
                     db.raw(
-                        "CONCAT(first_name, ' ', last_name, ' ', COALESCE(third_name,'')) AS full_name"
+                        "CONCAT(last_name, ' ', first_name, ' ', COALESCE(third_name,'')) AS full_name"
                     )
                 )
                 .where("login", login)
@@ -64,7 +64,7 @@ class UserController {
                 .select(
                     "*",
                     db.raw(
-                        "CONCAT(first_name, ' ', last_name, ' ', COALESCE(third_name,'')) AS full_name"
+                        "CONCAT(last_name, ' ', first_name, ' ', COALESCE(third_name,'')) AS full_name"
                     )
                 )
                 .where("id", id)
