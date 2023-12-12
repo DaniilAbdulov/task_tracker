@@ -5,13 +5,13 @@ class Tasks {
     currentStatus = "";
     statusAndDates = [];
     tasksListFetching = false;
-    taskDataFetching = false;
-    taskDataIsAvailable = false;
-    changeTaskDataLoading = false;
+    //
+    taskLoading = false;
+    selectedTask = {};
+    //
     errorMessage = "";
     successMessage = "";
     tasksList = [];
-    selectedTask = {};
 
     constructor() {
         makeAutoObservable(this);
@@ -19,7 +19,6 @@ class Tasks {
     clearTasksList() {
         this.tasksList = [];
         this.selectedTask = {};
-        this.taskDataIsAvailable = false;
     }
     clearMessage() {
         if (this.successMessage) {
@@ -47,8 +46,7 @@ class Tasks {
     }
     async getTaskData(taskId) {
         this.selectedTask = {};
-        this.taskDataFetching = true;
-        this.taskDataIsAvailable = false;
+        this.taskLoading = true;
         try {
             const res = await axios.get(`${API_URL}/tasks/getTaskData`, {
                 params: {
@@ -56,20 +54,18 @@ class Tasks {
                 },
             });
             this.selectedTask = res.data.selectedTask;
-            this.taskDataIsAvailable = true;
-            this.taskDataFetching = false;
             this.currentStatus = res.data.currentStatus;
             this.statusAndDates = res.data.statusAndDates;
+            this.taskLoading = false;
             return res.data;
         } catch (error) {
-            this.taskDataFetching = false;
-            this.taskDataIsAvailable = false;
+            this.taskLoading = false;
             this.errorMessage = error.response.data.message;
         }
     }
     async changeTaskStatus(taskId, newStatus) {
         try {
-            this.changeTaskDataLoading = true;
+            this.taskLoading = true;
             const res = await axios.put(`${API_URL}/tasks/changeTaskStatus`, {
                 params: {
                     taskId,
@@ -77,10 +73,9 @@ class Tasks {
                 },
             });
             this.successMessage = res.data.message;
-            this.taskDataIsAvailable = false;
-            this.changeTaskDataLoading = false;
+            this.taskLoading = false;
         } catch (error) {
-            this.changeTaskDataLoading = false;
+            this.taskLoading = false;
             this.errorMessage = error.response.data.message;
         }
     }

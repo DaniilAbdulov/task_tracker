@@ -4,13 +4,12 @@ import { useEffect, useState } from "react";
 import { tasks } from "../store/tasks";
 
 const ModalWindow = observer(({ visible, setVisible, children }) => {
-    const taskd = tasks.taskDataIsAvailable;
-    console.log(taskd);
+    const formHasEdited = tasks.successMessage || tasks.errorMessage;
     useEffect(() => {
-        if (!taskd) {
-            setVisible(taskd);
+        if (formHasEdited) {
+            setVisible(false);
         }
-    }, [setVisible, taskd]);
+    }, [formHasEdited, setVisible]);
     return (
         <div className="modal-window">
             <Modal

@@ -10,7 +10,7 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
     const isDirector = auth.isDirector;
     const action = isDirector ? (isNewForm ? "create" : "edit") : "check";
     const taskStatus = tasks.currentStatus;
-    const changeTaskDataLoading = tasks.changeTaskDataLoading;
+    const isLoading = tasks.taskLoading;
     const handleChangeStatus = (taskId, key) => {
         tasks.changeTaskStatus(taskId, key);
     };
@@ -115,7 +115,7 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                         onClick={() => btn.clickHandler(taskId, btn.key)}
                         htmlType={btn.htmlType}
                         style={btn.style}
-                        disabled={btn.isDisabled || changeTaskDataLoading}
+                        disabled={btn.isDisabled || isLoading}
                     >
                         {btn.title}
                     </Button>

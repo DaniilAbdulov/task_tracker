@@ -13,7 +13,8 @@ export const TasksTable = observer(() => {
     const data = tasks.tasksList;
     const tableDataLoading = tasks.tasksListFetching || employees.isLoading;
     const [countTasks, setCountTasks] = useState(20);
-    const taskDataIsAvailable = tasks.taskDataIsAvailable;
+    const taskDataIsAvailable = tasks.selectedTask?.id;
+    console.log(taskDataIsAvailable);
     const isDirector = auth.isDirector;
     const [showEditTaskModal, setShowEditTaskModal] = useState(false);
     //список работников

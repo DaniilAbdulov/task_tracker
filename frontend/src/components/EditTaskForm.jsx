@@ -12,7 +12,7 @@ const dateFormat = "DD/MM/YYYY";
 export const EditTaskForm = observer(() => {
     const isDirector = auth.isDirector;
     // const selectedTask = tasks.selectedTask;
-    const changeTaskDataLoading = tasks.changeTaskDataLoading;
+    const isLoading = tasks.taskLoading;
     const {
         id,
         author,
@@ -51,7 +51,7 @@ export const EditTaskForm = observer(() => {
             <Form
                 name="customized_form_controls"
                 requiredMark={false}
-                disabled={!isDirector || changeTaskDataLoading}
+                disabled={!isDirector || isLoading}
                 layout="vertical"
                 onFinish={onFinish}
                 initialValues={{
