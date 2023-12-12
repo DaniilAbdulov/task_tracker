@@ -12,13 +12,20 @@ import { EditTaskForm } from "./EditTaskForm";
 export const TasksTable = observer(() => {
     const data = tasks.tasksList;
     const tableDataLoading = tasks.tasksListFetching || employees.isLoading;
-    const [countTasks, setCountTasks] = useState(20);
+
+    const [filteredInfo, setFilteredInfo] = useState({});
+    const [sortedInfo, setSortedInfo] = useState({});
+    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPageSize, setCurrentPageSize] = useState(10);
+    //Число всех задач
+    const [tasksCount] = useState(60);
     //если объект содержит 12 ключей, то его можно отображать
     const taskDataIsAvailable = Object.keys(tasks.selectedTask).length === 12;
     const isDirector = auth.isDirector;
     const [showEditTaskModal, setShowEditTaskModal] = useState(false);
     //список работников
-    const filters = employees.employeesList;
+    const employeesList = employees.employeesList;
+    const [employeesFilter, setEmployeesFilter] = useState(employeesList);
     //названия столбоцов и данные в них
     const columns = [
         {
@@ -87,6 +94,7 @@ export const TasksTable = observer(() => {
                 { text: "Больше недели", value: "month" },
             ],
             filterMode: "menu",
+            filteredValue: filteredInfo.ends_in || null,
             onFilter: (value, record) => {
                 const daysDiff = compareDate(record.ends_in);
                 switch (value) {
@@ -115,12 +123,16 @@ export const TasksTable = observer(() => {
                       return firstVal.localeCompare(secondVal);
                   }
                 : null,
-            filters: isDirector && filters.length ? filters : null,
+            filters:
+                isDirector && employeesList.length ? employeesFilter : null,
             filterMode: "menu",
             filterSearch: true,
+            filteredValue: filteredInfo.inspector || null,
             onFilter: (value, record) => {
                 return value === record.inspector;
             },
+            sortOrder:
+                sortedInfo.columnKey === "inspector" ? sortedInfo.order : null,
         },
         {
             title: "Статус",
@@ -128,6 +140,38 @@ export const TasksTable = observer(() => {
             dataIndex: "status",
         },
     ];
+    const handleChange = (pagination, filters, sorter) => {
+        // Устанавливаем информацию о фильтрах и сортировке
+        setFilteredInfo(filters);
+        setSortedInfo(sorter);
+        // Обработка фильтров
+        let newEmployees;
+        if (filters && filters.inspector) {
+            // Применяем фильтр по инспекторам
+            newEmployees = employees.employeesList.filter((record) =>
+                filters.inspector.includes(record.value)
+            );
+        } else {
+            // Если фильтра нет, используем исходный список
+            newEmployees = [...employees.employeesList];
+        }
+        setEmployeesFilter(newEmployees);
+        if (
+            currentPage !== pagination.current ||
+            currentPageSize !== pagination.pageSize
+        ) {
+            tasks.getTasksList(pagination.current, pagination.pageSize);
+            setCurrentPage(pagination.current);
+            setCurrentPageSize(pagination.pageSize);
+            //сбрасываем фильтры и сортировки
+            setFilteredInfo({});
+            setSortedInfo({});
+            setEmployeesFilter(employees.employeesList);
+        }
+    };
+    useEffect(() => {
+        tasks.getTasksList(currentPage, currentPageSize);
+    }, []);
 
     const handleRowClick = (record) => {
         const id = record.id;
@@ -140,29 +184,19 @@ export const TasksTable = observer(() => {
             onClick: () => handleRowClick(record),
         };
     };
-    const onPageChange = (page, pageSize) => {
-        console.log(page, pageSize);
-        //async getTasks(page,pageSize)
-    };
-    useEffect(() => {
-        tasks.getTasksList(1, 10);
-        employees.getEmployeesList();
-    }, []);
     return (
         <>
             <Table
                 pagination={{
-                    showSizeChanger: true,
-                    onChange: onPageChange,
                     defaultCurrent: 1,
-                    total: countTasks,
-                    pageSizeOptions: ["10", "20", "30", "50"],
+                    total: tasksCount,
                 }}
                 rowKey="id"
                 onRow={rowProps}
                 columns={columns}
                 dataSource={data}
                 loading={tableDataLoading}
+                onChange={handleChange}
             ></Table>
 
             <ModalWindow

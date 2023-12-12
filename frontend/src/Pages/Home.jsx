@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Layout, Spin, theme } from "antd";
 import { TasksTable } from "../components/TasksTable";
 import ModalWindow from "../components/ModalWindow";
@@ -21,7 +21,9 @@ export const Home = observer(() => {
         token: { colorBgContainer },
     } = theme.useToken();
     const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
-
+    useEffect(() => {
+        employees.getEmployeesList();
+    }, []);
     return (
         <Content style={{ margin: "20px 16px" }}>
             <div
