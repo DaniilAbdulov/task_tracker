@@ -37,7 +37,6 @@ export const SelectValues = observer(
                     style={{ minWidth: 250 }}
                 >
                     {optionValues.map((item) => {
-                        console.log(item);
                         return (
                             <Option
                                 key={item.id}

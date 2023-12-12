@@ -6,7 +6,6 @@ import { tasks } from "../../store/tasks";
 
 export const StatusSteps = observer(() => {
     const myItems = getItemsForSteps(tasks.statusAndDates, tasks.currentStatus);
-    console.log(myItems);
     return (
         <Steps
             size="small"
