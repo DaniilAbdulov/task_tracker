@@ -66,7 +66,9 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                 backgroundColor: "blue",
             },
             isDisabled:
-                taskStatus === "К выполнению" || taskStatus === "Выполняется"
+                taskStatus === "К выполнению" ||
+                taskStatus === "Выполняется" ||
+                auth.userFullName === tasks.selectedTask.author
                     ? false
                     : true,
         },

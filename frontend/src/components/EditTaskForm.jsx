@@ -11,30 +11,10 @@ import { compareObjects } from "../functions/compareObjects";
 const dateFormat = "DD/MM/YYYY";
 
 export const EditTaskForm = observer(() => {
-    // const isDirector = auth.isDirector;
     const isLoading = tasks.taskLoading;
     const taskId = tasks.selectedTask.id;
-    const formAvailabale = auth.userFullName === tasks.selectedTask.author;
+    const formAvailabale = auth.userFullName !== tasks.selectedTask.author;
 
-    // const {
-    //     id,
-    //     author,
-    //     priority,
-    //     inspector_id,
-    //     inspector_value,
-    //     title,
-    //     description,
-    //     ends_in,
-    // } = tasks.selectedTask;
-    // const defaultValues = {
-    //     inspector_id,
-    //     author,
-    //     priority,
-    //     inspector_value,
-    //     title,
-    //     description,
-    //     ends_in: formattedDate(ends_in),
-    // };
     const defaultValues = {
         inspector_id: tasks.selectedTask.inspector_id,
         author: tasks.selectedTask.author,
@@ -42,15 +22,14 @@ export const EditTaskForm = observer(() => {
         inspector_value: tasks.selectedTask.inspector_value,
         title: tasks.selectedTask.title,
         description: tasks.selectedTask.description,
-        ends_in: formattedDate(tasks.selectedTask.ends_in),
+        // ends_in: formattedDate(tasks.selectedTask.ends_in),
+        ends_in: tasks.selectedTask.ends_in,
     };
+
     const onFinish = (values) => {
-        // const correctDate = formattedDate(values.ends_in);
-        // const updated_at = formattedDate(new Date());
         const changeOfTask = {
             title: values.title,
             description: values.description,
-            // ends_in: correctDate,
             ends_in: values.ends_in,
             priority: values.priority.content,
             inspector_id:
@@ -72,7 +51,7 @@ export const EditTaskForm = observer(() => {
             <Form
                 name="customized_form_controls"
                 requiredMark={false}
-                disabled={isLoading || !formAvailabale}
+                disabled={isLoading || formAvailabale}
                 layout="vertical"
                 onFinish={onFinish}
                 initialValues={{
@@ -93,9 +72,3 @@ export const EditTaskForm = observer(() => {
         </>
     );
 });
-// const authorDefaultfValue = author;
-// const inspectorDefaultfValue = inspector_value;
-// const priorityDefaultfValue = priority;
-// const titleDefaultfValue = title;
-// const descriptionDefaultfValue = description;
-// const ends_inDefaultValue = formattedDate(ends_in);

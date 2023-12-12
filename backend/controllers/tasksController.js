@@ -83,6 +83,9 @@ class TasksController {
                     "t.priority",
                     "t.title",
                     "t.description",
+                    // "t.ends_in",
+                    // "t.created_at",
+                    // "t.updated_at",
                     db.raw("TO_CHAR(t.ends_in, 'DD/MM/YYYY') AS ends_in"),
                     db.raw("TO_CHAR(t.created_at, 'DD/MM/YYYY') AS created_at"),
                     db.raw("TO_CHAR(t.updated_at, 'DD/MM/YYYY') AS updated_at"),
@@ -229,9 +232,10 @@ class TasksController {
             if (!tryToChangeTask) {
                 throw new Error("Ошибка изменения задачи");
             }
+            console.log("Я дошел до сюда, но не должен был");
             setTimeout(() => {
                 return res.status(200).json({
-                    message: `Задача Изменена`,
+                    message: `Задача изменена`,
                 });
             }, 2000);
         } catch (error) {
