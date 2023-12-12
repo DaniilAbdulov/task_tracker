@@ -1,82 +1,199 @@
-import { tasksList } from "../data/tasksList.js";
-import { taskData } from "../data/taskData.js";
+import { formattedTaskData } from "../data/formattedTaskData.js";
+import { db } from "../db/db.js";
+// import { taskData } from "../data/taskData.js";
 import { getValuesForStatusSteps } from "../functions/getValuesForStatusSteps.js";
+import { validateTaskFields } from "../functions/validateTaskFields.js";
 class TasksController {
     async getTasksList(req, res) {
         try {
-            const { page, pageSize } = req.query;
-            console.log(page);
-            console.log(pageSize);
+            const { id, role } = req.user;
+            //данные для пагинации
+            const page = parseInt(req.query.page);
+            const pageSize = parseInt(req.query.pageSize);
+            console.log([page, pageSize]);
+            const offset = (page - 1) * pageSize;
+            //запрос на получение записей
+            const tasksList = await db
+                .select([
+                    "t.id",
+                    "t.title",
+                    "t.priority",
+                    db.raw("TO_CHAR(t.ends_in, 'DD/MM/YYYY') AS ends_in"),
+                    "t.status",
+                    "t.status",
+                    db.raw(
+                        "CONCAT(u.first_name, ' ', u.last_name, ' ', COALESCE(u.third_name,'')) AS inspector"
+                    ),
+                ])
+                .from("tasks as t")
+                .join("users as u", "t.inspector_id", "=", "u.id")
+                .modify((queryBuilder) => {
+                    if (role === "employee") {
+                        queryBuilder.where("t.inspector_id", id);
+                    }
+                    // Для 'director', никаких ограничений на записи нет
+                })
+                .orderBy("t.updated_at", "asc")
+                .limit(pageSize)
+                .offset(offset);
+            if (!tasksList.length) {
+                throw new Error("Ошибка получения списка задач");
+            }
+            //кол-во всех записей для пагинации
+            const totalRecordsResult = await db("tasks as t")
+                .modify((queryBuilder) => {
+                    if (role === "employee") {
+                        queryBuilder.where("t.inspector_id", id);
+                    }
+                    // Для 'director', никаких ограничений на записи нет
+                })
+                .count("* as count")
+                .first();
 
+            const totalRecords = parseInt(totalRecordsResult.count, 10);
+            if (isNaN(totalRecords) || totalRecords < 0) {
+                throw new Error("Ошибка получения количества всех задач");
+            }
+            //если все ок, то отпаравляем ответ
             setTimeout(() => {
-                return res.status(200).json({ tasksList });
+                return res.status(200).json({ tasksList, totalRecords });
             }, 2000);
         } catch (error) {
-            console.log(error);
+            const e = error.message;
+            return res.status(400).json({ message: e });
         }
     }
     async getTaskData(req, res) {
         try {
-            console.log(req.query.taskId);
-            const selectedTask = taskData;
+            const taskId = parseInt(req.query.taskId);
+            if (!taskId || taskId <= 0) {
+                throw new Error("Ошибка получения номера задачи");
+            }
+            const taskData = await db("tasks as t")
+                .select(
+                    "t.id",
+                    db.raw(
+                        "CONCAT(a.first_name, ' ', a.last_name, ' ', COALESCE(a.third_name, '')) AS author"
+                    ),
+                    "t.inspector_id",
+                    db.raw(
+                        "CONCAT(i.first_name, ' ', i.last_name, ' ', COALESCE(i.third_name, '')) AS inspector"
+                    ),
+                    "t.priority",
+                    "t.title",
+                    "t.description",
+                    db.raw("TO_CHAR(t.ends_in, 'DD/MM/YYYY') AS ends_in"),
+                    db.raw("TO_CHAR(t.created_at, 'DD/MM/YYYY') AS created_at"),
+                    db.raw("TO_CHAR(t.updated_at, 'DD/MM/YYYY') AS updated_at"),
+                    "t.status"
+                )
+                .leftJoin("users as a", "t.author_id", "a.id")
+                .leftJoin("users as i", "t.inspector_id", "i.id")
+                .where("t.id", taskId)
+                .first();
+            if (!taskData) {
+                throw new Error("Ошибка получения информации о задаче");
+            }
+            const selectedTask = formattedTaskData(taskData);
             const statusAndDates = getValuesForStatusSteps(
                 selectedTask.created_at,
                 selectedTask.updated_at
             );
             const currentStatus = selectedTask.status;
+
             setTimeout(() => {
                 return res
                     .status(200)
                     .json({ selectedTask, statusAndDates, currentStatus });
             }, 2000);
         } catch (error) {
-            console.log(error);
+            const e = error.message;
+            return res.status(400).json({ message: e });
         }
     }
     async changeTaskStatus(req, res) {
         try {
-            const { taskId, newStatus } = req.body.params;
-            console.log(taskId, newStatus);
+            const taskId = parseInt(req.body.params.taskId);
+            const newStatus = req.body.params.newStatus;
+            if (
+                typeof newStatus !== "string" ||
+                typeof taskId !== "number" ||
+                taskId <= 0
+            ) {
+                throw new Error("Некорректные данные");
+            }
+
+            const currentStatus = await db
+                .select(["status"])
+                .from("tasks")
+                .where("id", "=", taskId)
+                .first();
+            if (currentStatus.status === newStatus) {
+                throw new Error("Статус уже был изменен");
+            }
+            const tryToChangeStatus = await db("tasks")
+                .where("id", "=", taskId)
+                .update({
+                    status: newStatus,
+                });
+            if (!tryToChangeStatus) {
+                throw new Error("Ошибка изменения статуса");
+            }
             setTimeout(() => {
                 return res.status(200).json({
                     message: `Статус задания - ${newStatus}`,
                 });
             }, 2000);
         } catch (error) {
-            console.log(error);
+            const e = error.message;
+            return res.status(400).json({ message: e });
         }
     }
     async createNewTask(req, res) {
         try {
+            const dataIsValid = validateTaskFields(req.body.params.newTask);
+            if (!dataIsValid) {
+                throw new Error("Данные из формы не корректны");
+            }
             const {
                 title,
                 description,
-                priority,
                 ends_in,
                 created_at,
                 updated_at,
-                status,
-                author_id,
-                inspector_id,
-            } = req.body.params.newTask;
-            console.log([
-                title,
-                description,
                 priority,
-                ends_in,
-                created_at,
-                updated_at,
                 status,
                 author_id,
                 inspector_id,
-            ]);
+            } = dataIsValid;
+            const tryToCreateNewTask = await db("tasks").insert({
+                title: title,
+                description: description,
+                ends_in: ends_in,
+                created_at: created_at,
+                updated_at: updated_at,
+                priority: priority,
+                status: status,
+                author_id: author_id,
+                inspector_id: inspector_id,
+            });
+            if (
+                tryToCreateNewTask.command !== "INSERT" ||
+                !tryToCreateNewTask.rowCount
+            ) {
+                throw new Error(
+                    "Ошибка доьбавления новой задачи в базу данных"
+                );
+            }
+
             setTimeout(() => {
                 return res.status(200).json({
                     message: `Задача создана`,
                 });
             }, 2000);
         } catch (error) {
-            console.log(error);
+            const e = error.message;
+            return res.status(400).json({ message: e });
         }
     }
     async changeTask(req, res) {

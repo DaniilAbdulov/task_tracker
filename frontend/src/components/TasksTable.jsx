@@ -18,7 +18,7 @@ export const TasksTable = observer(() => {
     const [currentPage, setCurrentPage] = useState(1);
     const [currentPageSize, setCurrentPageSize] = useState(10);
     //Число всех задач
-    const [tasksCount] = useState(60);
+    const totalRecords = tasks.totalRecords;
     //если объект содержит 12 ключей, то его можно отображать
     const taskDataIsAvailable = Object.keys(tasks.selectedTask).length === 12;
     const isDirector = auth.isDirector;
@@ -33,7 +33,7 @@ export const TasksTable = observer(() => {
             dataIndex: "title",
             key: "title",
             render: (text, status) => {
-                const isDone = status.status === "Выполнено";
+                const isDone = status.status === "Выполнена";
                 //если текущая дата меньше, чем дата завершения задачи, то функция вернет true
                 const toLate = compareDate(status.ends_in) < 0;
                 return (
@@ -70,7 +70,7 @@ export const TasksTable = observer(() => {
             },
         },
         {
-            title: "К исполнению",
+            title: "К выполнению",
             dataIndex: "ends_in",
             key: "ends_in",
             render: (text, status) => {
@@ -189,7 +189,7 @@ export const TasksTable = observer(() => {
             <Table
                 pagination={{
                     defaultCurrent: 1,
-                    total: tasksCount,
+                    total: totalRecords,
                 }}
                 rowKey="id"
                 onRow={rowProps}

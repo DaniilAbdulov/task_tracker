@@ -1,7 +1,7 @@
 const statusAndDates = [
     {
         id: 0,
-        statusTitle: "К исполнению",
+        statusTitle: "К выполнению",
     },
     {
         id: 1,
@@ -9,11 +9,11 @@ const statusAndDates = [
     },
     {
         id: 2,
-        statusTitle: "Выполнено",
+        statusTitle: "Выполнена",
     },
     {
         id: 3,
-        statusTitle: "Отменено",
+        statusTitle: "Отменена",
     },
 ];
 

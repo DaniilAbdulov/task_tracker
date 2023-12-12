@@ -5,8 +5,9 @@ export const tasksList = [
         priority: "Высокий",
         ends_in: "08/12/2024",
         inspector: "Абдулов Даниил Билалович",
-        status: "К исполнению",
+        status: "К выполнению",
     },
+
     {
         id: 2,
         title: "Продажа дома",
@@ -21,7 +22,7 @@ export const tasksList = [
         priority: "Низкий",
         ends_in: "18/12/2023",
         inspector: "Абдулов Даниил Билалович",
-        status: "Выполнено",
+        status: "Выполнена",
     },
     {
         id: 4,
@@ -37,7 +38,7 @@ export const tasksList = [
         priority: "Средний",
         ends_in: "11/12/2023",
         inspector: "Шаяхметова Камила Рустамовна",
-        status: "К исполнению",
+        status: "К выполнению",
     },
     {
         id: 6,
@@ -45,7 +46,7 @@ export const tasksList = [
         priority: "Высокий",
         ends_in: "10/12/2023",
         inspector: "Шаяхметова Камила Рустамовна",
-        status: "К исполнению",
+        status: "К выполнению",
     },
     {
         id: 7,
@@ -61,7 +62,7 @@ export const tasksList = [
         priority: "Низкий",
         ends_in: "31/12/2023",
         inspector: "Абдулов Даниил Билалович",
-        status: "Выполнено",
+        status: "Выполнена",
     },
     {
         id: 9,
@@ -77,7 +78,7 @@ export const tasksList = [
         priority: "Средний",
         ends_in: "25/12/2023",
         inspector: "Шаяхметова Камила Рустамовна",
-        status: "К исполнению",
+        status: "К выполнению",
     },
     {
         id: 11,
@@ -85,7 +86,7 @@ export const tasksList = [
         priority: "Высокий",
         ends_in: "12/12/2024",
         inspector: "Шаяхметова Камила Рустамовна",
-        status: "К исполнению",
+        status: "К выполнению",
     },
     {
         id: 12,
@@ -101,7 +102,7 @@ export const tasksList = [
         priority: "Низкий",
         ends_in: "16/12/2023",
         inspector: "Шаяхметова Камила Рустамовна",
-        status: "Выполнено",
+        status: "Выполнена",
     },
     {
         id: 14,
@@ -117,7 +118,7 @@ export const tasksList = [
         priority: "Средний",
         ends_in: "25/12/2023",
         inspector: "Шаяхметова Камила Рустамовна",
-        status: "К исполнению",
+        status: "К выполнению",
     },
     {
         id: 16,
@@ -125,7 +126,7 @@ export const tasksList = [
         priority: "Высокий",
         ends_in: "08/12/2023",
         inspector: "Абдулов Даниил Билалович",
-        status: "К исполнению",
+        status: "К выполнению",
     },
     {
         id: 17,
@@ -141,7 +142,7 @@ export const tasksList = [
         priority: "Низкий",
         ends_in: "16/12/2023",
         inspector: "Абдулов Даниил Билалович",
-        status: "Выполнено",
+        status: "Выполнена",
     },
     {
         id: 19,
@@ -157,6 +158,6 @@ export const tasksList = [
         priority: "Средний",
         ends_in: "25/12/2023",
         inspector: "Абдулов Даниил Билалович",
-        status: "К исполнению",
+        status: "К выполнению",
     },
 ];

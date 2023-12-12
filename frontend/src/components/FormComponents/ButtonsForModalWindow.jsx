@@ -28,28 +28,28 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
             clickHandler: handleChangeStatus,
             type: "default",
             htmlType: "button",
-            title: "Принять к исполнению",
+            title: "Принять К выполнению",
             action: "check",
             style: {
                 color: "",
                 backgroundColor: "",
             },
-            isDisabled: taskStatus === "К исполнению" ? false : true,
+            isDisabled: taskStatus === "К выполнению" ? false : true,
         },
         {
             id: 2,
-            key: "Выполнено",
+            key: "Выполнена",
             clickHandler: handleChangeStatus,
             type: "primary",
             htmlType: "button",
-            title: "Выполнено",
+            title: "Выполнена",
             action: "check",
             style: {
                 color: "",
                 backgroundColor: "green",
             },
             isDisabled:
-                taskStatus === "Выполняется" || taskStatus === "К исполнению"
+                taskStatus === "Выполняется" || taskStatus === "К выполнению"
                     ? false
                     : true,
         },
@@ -66,13 +66,13 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                 backgroundColor: "blue",
             },
             isDisabled:
-                taskStatus === "К исполнению" || taskStatus === "Выполняется"
+                taskStatus === "К выполнению" || taskStatus === "Выполняется"
                     ? false
                     : true,
         },
         {
             id: 4,
-            key: "Отменено",
+            key: "Отменена",
             clickHandler: handleChangeStatus,
             type: "default",
             htmlType: "button",
@@ -83,7 +83,7 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                 backgroundColor: "",
             },
             isDisabled:
-                taskStatus === "К исполнению" || taskStatus === "Выполняется"
+                taskStatus === "К выполнению" || taskStatus === "Выполняется"
                     ? false
                     : true,
         },

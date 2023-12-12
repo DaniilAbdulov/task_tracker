@@ -14,15 +14,14 @@ export const CreateNewTaskForm = observer(() => {
     const isLoading = tasks.taskLoading;
     const formCreated = tasks.successMessage || tasks.errorMessage;
     const onFinish = (values) => {
-        const correctDate = formattedDate(values.ends_in);
         const newTask = {
             title: values.title,
             description: values.description,
-            ends_in: correctDate,
-            created_at: formattedDate(),
-            updated_at: formattedDate(),
+            ends_in: values.ends_in,
+            created_at: new Date(),
+            updated_at: new Date(),
             priority: values.priority.content,
-            status: "К исполнению",
+            status: "К выполнению",
             author_id: auth.userId,
             inspector_id: values.inspector.content,
         };

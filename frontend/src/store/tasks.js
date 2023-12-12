@@ -12,6 +12,7 @@ class Tasks {
     errorMessage = "";
     successMessage = "";
     tasksList = [];
+    totalRecords = null;
 
     constructor() {
         makeAutoObservable(this);
@@ -19,6 +20,7 @@ class Tasks {
     clearTasksList() {
         this.tasksList = [];
         this.selectedTask = {};
+        this.totalRecords = null;
     }
     clearMessage() {
         if (this.successMessage) {
@@ -36,7 +38,9 @@ class Tasks {
                     pageSize,
                 },
             });
+            console.log(res.data);
             this.tasksList = res.data.tasksList;
+            this.totalRecords = res.data.totalRecords;
             this.tasksListFetching = false;
             return res.data;
         } catch (error) {
