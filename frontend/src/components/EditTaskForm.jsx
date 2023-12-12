@@ -6,65 +6,83 @@ import { observer } from "mobx-react-lite";
 import { formattedDate } from "../functions/formattedDate";
 import { FormFields } from "./FormComponents/FormFields";
 import { tasks } from "../store/tasks";
+import { compareObjects } from "../functions/compareObjects";
 
 const dateFormat = "DD/MM/YYYY";
 
 export const EditTaskForm = observer(() => {
-    const isDirector = auth.isDirector;
-    // const selectedTask = tasks.selectedTask;
+    // const isDirector = auth.isDirector;
     const isLoading = tasks.taskLoading;
-    const {
-        id,
-        author,
-        priority,
-        inspector_id,
-        inspector_value,
-        title,
-        description,
-        ends_in,
-    } = tasks.selectedTask;
-
+    const taskId = tasks.selectedTask.id;
+    // const {
+    //     id,
+    //     author,
+    //     priority,
+    //     inspector_id,
+    //     inspector_value,
+    //     title,
+    //     description,
+    //     ends_in,
+    // } = tasks.selectedTask;
+    // const defaultValues = {
+    //     inspector_id,
+    //     author,
+    //     priority,
+    //     inspector_value,
+    //     title,
+    //     description,
+    //     ends_in: formattedDate(ends_in),
+    // };
+    const defaultValues = {
+        inspector_id: tasks.selectedTask.inspector_id,
+        author: tasks.selectedTask.author,
+        priority: tasks.selectedTask.priority,
+        inspector_value: tasks.selectedTask.inspector_value,
+        title: tasks.selectedTask.title,
+        description: tasks.selectedTask.description,
+        ends_in: formattedDate(tasks.selectedTask.ends_in),
+    };
     const onFinish = (values) => {
         const correctDate = formattedDate(values.ends_in);
+        const updated_at = formattedDate(new Date());
         const changeOfTask = {
-            id,
             title: values.title,
             description: values.description,
             ends_in: correctDate,
             priority: values.priority.content,
             inspector_id:
-                values.inspector.content === inspector_value
-                    ? inspector_id
+                values.inspector.content === defaultValues.inspector_value
+                    ? defaultValues.inspector_id
                     : values.inspector.content,
+            updated_at,
         };
-        console.log(changeOfTask);
+        const formIsChaged = compareObjects(defaultValues, changeOfTask);
+        //функция compareObjects проверяет, изменилось ли хоть одно поле
+        //воизбежание отправки неизмененной формы на сервер
+        if (formIsChaged) {
+            tasks.changeTask(changeOfTask, taskId);
+        }
     };
 
-    const authorDefaultfValue = author;
-    const inspectorDefaultfValue = inspector_value;
-    const priorityDefaultfValue = priority;
-    const titleDefaultfValue = title;
-    const descriptionDefaultfValue = description;
-    const ends_inDefaultValue = formattedDate(ends_in);
     return (
         <>
             <Form
                 name="customized_form_controls"
                 requiredMark={false}
-                disabled={!isDirector || isLoading}
+                disabled={isLoading}
                 layout="vertical"
                 onFinish={onFinish}
                 initialValues={{
-                    author: `${authorDefaultfValue}`,
+                    author: `${defaultValues.author}`,
                     inspector: {
-                        content: `${inspectorDefaultfValue}`,
+                        content: `${defaultValues.inspector_value}`,
                     },
                     priority: {
-                        content: `${priorityDefaultfValue}`,
+                        content: `${defaultValues.priority}`,
                     },
-                    title: `${titleDefaultfValue}`,
-                    description: `${descriptionDefaultfValue}`,
-                    ends_in: dayjs(`${ends_inDefaultValue}`, dateFormat),
+                    title: `${defaultValues.title}`,
+                    description: `${defaultValues.description}`,
+                    ends_in: dayjs(`${defaultValues.ends_in}`, dateFormat),
                 }}
             >
                 <FormFields isNewForm={false} />
@@ -72,3 +90,9 @@ export const EditTaskForm = observer(() => {
         </>
     );
 });
+// const authorDefaultfValue = author;
+// const inspectorDefaultfValue = inspector_value;
+// const priorityDefaultfValue = priority;
+// const titleDefaultfValue = title;
+// const descriptionDefaultfValue = description;
+// const ends_inDefaultValue = formattedDate(ends_in);

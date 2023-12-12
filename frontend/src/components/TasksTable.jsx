@@ -13,8 +13,8 @@ export const TasksTable = observer(() => {
     const data = tasks.tasksList;
     const tableDataLoading = tasks.tasksListFetching || employees.isLoading;
     const [countTasks, setCountTasks] = useState(20);
-    const taskDataIsAvailable = tasks.selectedTask?.id;
-    console.log(taskDataIsAvailable);
+    //если объект содержит 12 ключей, то его можно отображать
+    const taskDataIsAvailable = Object.keys(tasks.selectedTask).length === 12;
     const isDirector = auth.isDirector;
     const [showEditTaskModal, setShowEditTaskModal] = useState(false);
     //список работников
@@ -115,7 +115,7 @@ export const TasksTable = observer(() => {
                       return firstVal.localeCompare(secondVal);
                   }
                 : null,
-            filters: isDirector ? filters : null,
+            filters: isDirector && filters.length ? filters : null,
             filterMode: "menu",
             filterSearch: true,
             onFilter: (value, record) => {

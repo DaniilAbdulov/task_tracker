@@ -46,6 +46,51 @@ class TasksController {
             console.log(error);
         }
     }
+    async createNewTask(req, res) {
+        try {
+            const {
+                title,
+                description,
+                priority,
+                ends_in,
+                created_at,
+                updated_at,
+                status,
+                author_id,
+                inspector_id,
+            } = req.body.params.newTask;
+            console.log([
+                title,
+                description,
+                priority,
+                ends_in,
+                created_at,
+                updated_at,
+                status,
+                author_id,
+                inspector_id,
+            ]);
+            setTimeout(() => {
+                return res.status(200).json({
+                    message: `Задача создана`,
+                });
+            }, 2000);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    async changeTask(req, res) {
+        try {
+            console.log(req.body.params);
+            setTimeout(() => {
+                return res.status(200).json({
+                    message: `Задача Изменена`,
+                });
+            }, 2000);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 export default new TasksController();

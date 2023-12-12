@@ -6,5 +6,7 @@ const router = new Router();
 router.get("/getTasksList", tasksController.getTasksList);
 router.get("/getTaskData", tasksController.getTaskData);
 router.put("/changeTaskStatus", tasksController.changeTaskStatus);
+router.post("/createNewTask", tasksController.createNewTask);
+router.put("/changeTask", tasksController.changeTask);
 
 export default router;

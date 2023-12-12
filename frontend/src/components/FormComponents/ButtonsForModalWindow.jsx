@@ -15,8 +15,7 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
         tasks.changeTaskStatus(taskId, key);
     };
     const handleCreate = () => {
-        alert("Create");
-        //setVisible(false);
+        return;
     };
     const handleChange = () => {
         alert(`Изменить задачу`);

@@ -5,9 +5,18 @@ import ModalWindow from "../components/ModalWindow";
 import { observer } from "mobx-react-lite";
 import { auth } from "../store/auth";
 import { CreateNewTaskForm } from "../components/CreateNewTaskForm";
+import { employees } from "../store/employees";
 const { Content } = Layout;
 export const Home = observer(() => {
-    const isDirector = auth.isDirector;
+    //Кнопка создания новой задачи будет доступной, только если авторизовался руководитель
+    //и у объекта auth есть поля userId и FullName, а так же доступен массив работников
+    //для селектора с ответсвенными
+    const createButtonIsAvailable =
+        auth?.userId &&
+        auth?.userFullName &&
+        auth.isDirector &&
+        employees.employeesList.length;
+    //
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -25,7 +34,7 @@ export const Home = observer(() => {
                 <Button
                     type="primary"
                     onClick={() => setShowCreateTaskModal(true)}
-                    disabled={!isDirector}
+                    disabled={!createButtonIsAvailable}
                 >
                     Создать новую задачу
                 </Button>

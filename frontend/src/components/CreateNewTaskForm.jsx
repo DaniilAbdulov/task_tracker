@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form } from "antd";
 import { auth } from "../store/auth";
 import dayjs from "dayjs";
 import { observer } from "mobx-react-lite";
 import { formattedDate } from "../functions/formattedDate";
 import { FormFields } from "./FormComponents/FormFields";
+import { tasks } from "../store/tasks";
 
 const dateFormat = "DD/MM/YYYY";
 
 export const CreateNewTaskForm = observer(() => {
     const [form] = Form.useForm();
-    const isDirector = auth.isDirector;
+    const isLoading = tasks.taskLoading;
+    const formCreated = tasks.successMessage || tasks.errorMessage;
     const onFinish = (values) => {
         const correctDate = formattedDate(values.ends_in);
         const newTask = {
@@ -24,10 +26,14 @@ export const CreateNewTaskForm = observer(() => {
             author_id: auth.userId,
             inspector_id: values.inspector.content,
         };
+        tasks.createNewTask(newTask);
         console.log(newTask);
-        form.resetFields();
     };
-
+    useEffect(() => {
+        if (formCreated) {
+            form.resetFields();
+        }
+    }, [formCreated, form]);
     const authorDefaultfValue = auth.userFullName;
     const ends_inDefaultValue = formattedDate();
     return (
@@ -35,7 +41,7 @@ export const CreateNewTaskForm = observer(() => {
             <Form
                 form={form}
                 name="customized_form_controls"
-                disabled={!isDirector}
+                disabled={isLoading}
                 layout="vertical"
                 onFinish={onFinish}
                 initialValues={{

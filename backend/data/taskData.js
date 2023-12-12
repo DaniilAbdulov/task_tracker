@@ -10,5 +10,5 @@ export const taskData = {
     ends_in: "12/12/2023",
     created_at: "08/12/2023",
     updated_at: "10/12/2023",
-    status: "К исполнению",
+    status: "Выполняется",
 };

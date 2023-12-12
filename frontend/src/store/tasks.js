@@ -79,5 +79,36 @@ class Tasks {
             this.errorMessage = error.response.data.message;
         }
     }
+    async createNewTask(newTask) {
+        try {
+            this.taskLoading = true;
+            const res = await axios.post(`${API_URL}/tasks/createNewTask`, {
+                params: {
+                    newTask,
+                },
+            });
+            this.successMessage = res.data.message;
+            this.taskLoading = false;
+        } catch (error) {
+            this.taskLoading = false;
+            this.errorMessage = error.response.data.message;
+        }
+    }
+    async changeTask(newValues, taskId) {
+        try {
+            this.taskLoading = true;
+            const res = await axios.put(`${API_URL}/tasks/changeTask`, {
+                params: {
+                    newValues,
+                    taskId,
+                },
+            });
+            this.successMessage = res.data.message;
+            this.taskLoading = false;
+        } catch (error) {
+            this.taskLoading = false;
+            this.errorMessage = error.response.data.message;
+        }
+    }
 }
 export const tasks = new Tasks();

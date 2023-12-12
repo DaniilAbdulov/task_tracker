@@ -40,6 +40,16 @@ class Auth {
         localStorage.removeItem("bgtrackerjwt");
         initializeAxiosHeaders(null);
     }
+    loggedUser(user) {
+        this.isAuth = true;
+        if (user.role === "director") {
+            this.isDirector = true;
+        } else {
+            this.isEmployee = true;
+        }
+        this.userId = user.id;
+        this.userFullName = user.full_name;
+    }
     async authenticateUser() {
         const token = localStorage.getItem("bgtrackerjwt");
         initializeAxiosHeaders(token);
@@ -47,13 +57,7 @@ class Auth {
             try {
                 this.isFetchingTokenLoading = true;
                 const res = await axios.get(`${API_URL}/auth`);
-                const userRole = res.data.user.role;
-                this.isAuth = true;
-                if (userRole === "director") {
-                    this.isDirector = true;
-                } else {
-                    this.isEmployee = true;
-                }
+                this.loggedUser(res.data.user);
                 this.isFetchingTokenLoading = false;
                 return res.data;
             } catch (error) {
@@ -66,22 +70,12 @@ class Auth {
         this.isLoading = true;
         try {
             const res = await axios.post(`${API_URL}/auth/login`, candidat);
-            console.log(res.data);
-            const loggedUser = res.data.user;
-            const userRole = loggedUser.role;
-            this.isAuth = true;
-            if (userRole === "director") {
-                this.isDirector = true;
-            } else {
-                this.isEmployee = true;
-            }
-            this.userId = loggedUser.id;
-            this.userFullName = loggedUser.full_name;
+            this.loggedUser(res.data.user);
             this.isLoading = false;
-            this.successMessage = "Вход выполнен успешно";
             const token = res.data.token;
             localStorage.setItem("bgtrackerjwt", token);
             initializeAxiosHeaders(token);
+            this.successMessage = "Вход выполнен успешно";
             return res.data;
         } catch (error) {
             this.isLoading = false;
