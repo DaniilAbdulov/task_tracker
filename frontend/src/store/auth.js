@@ -62,7 +62,7 @@ class Auth {
                 return res.data;
             } catch (error) {
                 this.isFetchingTokenLoading = false;
-                console.log(error);
+                this.errorMessage = error.response.data.message;
             }
         }
     }

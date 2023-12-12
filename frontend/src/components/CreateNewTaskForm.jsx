@@ -26,7 +26,6 @@ export const CreateNewTaskForm = observer(() => {
             inspector_id: values.inspector.content,
         };
         tasks.createNewTask(newTask);
-        console.log(newTask);
     };
     useEffect(() => {
         if (formCreated) {

@@ -28,7 +28,7 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
             clickHandler: handleChangeStatus,
             type: "default",
             htmlType: "button",
-            title: "Принять К выполнению",
+            title: "Принять к выполнению",
             action: "check",
             style: {
                 color: "",
@@ -42,7 +42,7 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
             clickHandler: handleChangeStatus,
             type: "primary",
             htmlType: "button",
-            title: "Выполнена",
+            title: "Выполнено",
             action: "check",
             style: {
                 color: "",

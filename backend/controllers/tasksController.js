@@ -101,7 +101,6 @@ class TasksController {
                 selectedTask.updated_at
             );
             const currentStatus = selectedTask.status;
-            console.log(selectedTask);
             setTimeout(() => {
                 return res
                     .status(200)
@@ -236,7 +235,8 @@ class TasksController {
                 });
             }, 2000);
         } catch (error) {
-            console.log(error);
+            const e = error.message;
+            return res.status(400).json({ message: e });
         }
     }
 }

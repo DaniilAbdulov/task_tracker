@@ -38,7 +38,6 @@ class Tasks {
                     pageSize,
                 },
             });
-            console.log(res.data);
             this.tasksList = res.data.tasksList;
             this.totalRecords = res.data.totalRecords;
             this.tasksListFetching = false;
