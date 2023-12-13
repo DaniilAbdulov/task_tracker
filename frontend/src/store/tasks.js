@@ -4,6 +4,7 @@ import axios from "axios";
 class Tasks {
     currentStatus = "";
     statusAndDates = [];
+    //
     tasksListFetching = false;
     //
     taskLoading = false;

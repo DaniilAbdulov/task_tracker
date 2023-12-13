@@ -8,9 +8,9 @@ import { CreateNewTaskForm } from "../components/CreateNewTaskForm";
 import { employees } from "../store/employees";
 const { Content } = Layout;
 export const Home = observer(() => {
-    //Кнопка создания новой задачи будет доступной, только если авторизовался руководитель
-    //и у объекта auth есть поля userId и FullName, а так же доступен массив работников
-    //для селектора с ответсвенными
+    // Кнопка создания новой задачи будет доступной, только если авторизовался руководитель
+    // и у объекта auth есть поля userId и FullName, а так же доступен массив работников
+    // для селектора с ответсвенными
     const createButtonIsAvailable =
         auth?.userId &&
         auth?.userFullName &&
