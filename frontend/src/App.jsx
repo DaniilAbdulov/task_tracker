@@ -9,6 +9,7 @@ import { LogoutOutlined } from "@ant-design/icons";
 import { useEffect } from "react";
 import { Message } from "./components/UI/Message";
 import { tasks } from "./store/tasks";
+import { MiniLoader } from "./components/UI/MiniLoader";
 const { Header, Footer } = Layout;
 export const App = observer(() => {
     const isAuth = auth.isAuth;
@@ -63,6 +64,7 @@ export const App = observer(() => {
                         <div className="App">
                             <Router />
                             <Message />
+                            <MiniLoader />
                         </div>
                     </Layout>
                     <Footer style={{ textAlign: "center" }}>

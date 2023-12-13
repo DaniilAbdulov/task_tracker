@@ -14,6 +14,9 @@ export const Message = observer(() => {
         } else if (errorMessage) {
             toast.error(errorMessage);
         }
+        if (tasks.successMessage) {
+            tasks.getTasksList(1, 10);
+        }
         auth.clearMessage();
         tasks.clearMessage();
     }, [successMessage, errorMessage]);

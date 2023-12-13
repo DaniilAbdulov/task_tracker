@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Flex, Spin, Table, Tag } from "antd";
 import { compareDate } from "../functions/compareData";
 import ModalWindow from "./ModalWindow";
-
 import { tasks } from "../store/tasks";
 import { employees } from "../store/employees";
 import { observer } from "mobx-react-lite";

@@ -1,6 +1,6 @@
 import { Modal } from "antd";
 import { observer } from "mobx-react-lite";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { tasks } from "../store/tasks";
 
 const ModalWindow = observer(({ visible, setVisible, children }) => {
