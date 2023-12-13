@@ -23,6 +23,8 @@ export const TasksTable = observer(() => {
     const [showEditTaskModal, setShowEditTaskModal] = useState(false);
     //названия столбоцов и данные в них
     const columns = [
+        // В списке для каждой задачи отобразите: заголовок, приоритет,
+        // дату окончания, ответственного, статус
         {
             title: "Задача",
             dataIndex: "title",
@@ -73,6 +75,9 @@ export const TasksTable = observer(() => {
                 //если текущая дата меньше, чем дата завершения задачи, то функция вернет true
                 const toLate = compareDate(status.ends_in) < 0;
                 return (
+                    //Заголовки незавершенных задач с датой окончания < текущая дата
+                    // отображаются красным цветом. Заголовки завершенных задач
+                    // отображаются зеленым цветом. Остальные - серым.
                     <p
                         style={{
                             color: toLate && !isDone ? "red" : "gray",
@@ -82,6 +87,10 @@ export const TasksTable = observer(() => {
                     </p>
                 );
             },
+            // С группировкой по дате завершения: задачи авторизованного
+            // пользователя на сегодня, на неделю, на будущее (больше чем
+            // на неделю)
+            //Внес от себя 'Срок прошел', подумал, что не будет лишним
             filters: [
                 { text: "Срок прошел", value: "toolate" },
                 { text: "Сегодня", value: "today" },
@@ -110,6 +119,8 @@ export const TasksTable = observer(() => {
             title: "Исполнитель",
             dataIndex: "inspector",
             key: "inspector",
+            // С группировкой по ответственным (режим просмотра для
+            // руководителя)
             sorter: isDirector
                 ? (a, b) => {
                       const firstVal = a.inspector.split(" ")[0];
@@ -133,6 +144,9 @@ export const TasksTable = observer(() => {
 
     const handleRowClick = (record) => {
         const id = record.id;
+        // При клике на задачу открывается модальное окно с возможностью
+        // редактирования атрибутов выбранной задачи.
+
         setShowEditTaskModal(true);
         tasks.getTaskData(id);
     };

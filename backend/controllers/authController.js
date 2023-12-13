@@ -15,6 +15,10 @@ class UserController {
                 throw new Error("Введены некорректные данные");
             }
             const findUser = await db("users").where("login", login).first();
+            //             При неуспешной попытке авторизации отобразите на странице
+            // одну из возможных ошибок: пользователя с таким логином не
+            // существует
+
             if (!findUser) {
                 res.status(404).json({ message: "Нет такого пользователя" });
                 return;
@@ -32,6 +36,7 @@ class UserController {
                 password,
                 candidate.password
             );
+            //.., пользователь ввел неверный пароль.
             if (!comparePassword) {
                 res.status(404).json({ message: "Неверный пароль" });
                 return;

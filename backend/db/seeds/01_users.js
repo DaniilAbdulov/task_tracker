@@ -5,6 +5,7 @@ export const seed = async function (knex) {
     await knex("users").del();
 
     // хеширование паролей
+    // пароли пользователей нельзя хранить в незашифрованном виде;
     const hashedPasswords = await Promise.all([
         bcrypt.hash("director1", saltRounds),
         bcrypt.hash("director2", saltRounds),

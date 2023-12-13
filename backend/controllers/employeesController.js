@@ -5,6 +5,9 @@ class EmployeesController {
         try {
             const users = await db("users")
                 .select(["id", "first_name", "last_name", "third_name"])
+                // пользователь не может указать в качестве ответственного
+                // задачи другого пользователя, который не является его
+                // подчиненным;
                 .where("role", "!=", "director");
             const employeesList = formattedEmployeesList(users);
             if (!users) {

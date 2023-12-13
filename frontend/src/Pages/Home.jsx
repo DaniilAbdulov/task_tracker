@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Layout, Spin, theme } from "antd";
+import { Button, Layout, theme } from "antd";
 import { TasksTable } from "../components/TasksTable";
 import ModalWindow from "../components/ModalWindow";
 import { observer } from "mobx-react-lite";
@@ -33,6 +33,10 @@ export const Home = observer(() => {
                     background: colorBgContainer,
                 }}
             >
+                {/* На странице также присутствует кнопка “Новая задача” 
+                при нажатии на которую открывается всё то 
+                же модальное окно с возможностью создания 
+                новой задачи. */}
                 <Button
                     type="primary"
                     onClick={() => setShowCreateTaskModal(true)}

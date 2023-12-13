@@ -13,6 +13,10 @@ const onFinish = (values) => {
     auth.loginUser(candidat);
 };
 
+// На странице авторизации отобразите форму с двумя текстовыми
+// полями: логином и паролем, после ввода которых при успешной
+// проверке пользователь перенаправляется на страницу с задачами.
+
 export const Auth = observer(() => {
     const authLoading = auth.isLoading;
     const isFetchingTokenLoading = auth.isFetchingTokenLoading;
