@@ -12,3 +12,12 @@ task_tracker\backend> cd ..
 task_tracker> cd frontend
 task_tracker\frontend> npm install
 task_tracker\frontend> npm run start
+
+логины/пароли:
+director1/director1
+director2/director2
+user1/user1
+user2/user2
+user3/user3
+user4/user4
+user5/user5
