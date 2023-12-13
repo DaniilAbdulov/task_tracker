@@ -1,9 +1,9 @@
 import { formattedTaskData } from "../functions/formattedTaskData.js";
 import { db } from "../db/db.js";
-// import { taskData } from "../data/taskData.js";
 import { getValuesForStatusSteps } from "../functions/getValuesForStatusSteps.js";
 import { validateChangedTaskFields } from "../functions/validateChangedTaskFields.js";
 import { validateTaskFields } from "../functions/validateTaskFields.js";
+import { formattedDate } from "../functions/formattedDate.js";
 class TasksController {
     async getTasksList(req, res) {
         try {
@@ -14,12 +14,12 @@ class TasksController {
             console.log([page, pageSize]);
             const offset = (page - 1) * pageSize;
             //запрос на получение записей
-            const tasksList = await db
+            const list = await db
                 .select([
                     "t.id",
                     "t.title",
                     "t.priority",
-                    db.raw("TO_CHAR(t.ends_in, 'DD/MM/YYYY') AS ends_in"),
+                    "t.ends_in",
                     "t.status",
                     "t.status",
                     db.raw(
@@ -37,7 +37,7 @@ class TasksController {
                 .orderBy("t.updated_at", "asc")
                 .limit(pageSize)
                 .offset(offset);
-            if (!tasksList.length) {
+            if (!list.length) {
                 throw new Error("Ошибка получения списка задач");
             }
             //кол-во всех записей для пагинации
@@ -55,6 +55,11 @@ class TasksController {
             if (isNaN(totalRecords) || totalRecords < 0) {
                 throw new Error("Ошибка получения количества всех задач");
             }
+            const tasksList = list.map((task) => ({
+                ...task,
+                ends_in: formattedDate(task.ends_in),
+            }));
+
             //если все ок, то отпаравляем ответ
             setTimeout(() => {
                 return res.status(200).json({ tasksList, totalRecords });
@@ -83,12 +88,9 @@ class TasksController {
                     "t.priority",
                     "t.title",
                     "t.description",
-                    // "t.ends_in",
-                    // "t.created_at",
-                    // "t.updated_at",
-                    db.raw("TO_CHAR(t.ends_in, 'DD/MM/YYYY') AS ends_in"),
-                    db.raw("TO_CHAR(t.created_at, 'DD/MM/YYYY') AS created_at"),
-                    db.raw("TO_CHAR(t.updated_at, 'DD/MM/YYYY') AS updated_at"),
+                    "t.ends_in",
+                    "t.created_at",
+                    "t.updated_at",
                     "t.status"
                 )
                 .leftJoin("users as a", "t.author_id", "a.id")
@@ -138,6 +140,7 @@ class TasksController {
                 .where("id", "=", taskId)
                 .update({
                     status: newStatus,
+                    updated_at: new Date(),
                 });
             if (!tryToChangeStatus) {
                 throw new Error("Ошибка изменения статуса");

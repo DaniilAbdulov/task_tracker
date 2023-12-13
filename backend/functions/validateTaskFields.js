@@ -1,5 +1,3 @@
-import { formattedDate } from "./formattedDate.js";
-
 export function validateTaskFields(task) {
     // author_id и inspector_id - числа
     if (
@@ -8,7 +6,6 @@ export function validateTaskFields(task) {
     ) {
         return false;
     }
-
     // Проверяем, что можно создать дату из ends_in, created_at, updated_at
     if (
         isNaN(Date.parse(task.ends_in)) ||
@@ -17,7 +14,6 @@ export function validateTaskFields(task) {
     ) {
         return false;
     }
-
     // Проверяем, что остальные поля - строки
     if (
         typeof task.title !== "string" ||
@@ -27,13 +23,12 @@ export function validateTaskFields(task) {
     ) {
         return false;
     }
-
     return {
         title: task.title,
         description: task.description,
-        ends_in: formattedDate(task.ends_in),
-        created_at: formattedDate(task.created_at),
-        updated_at: formattedDate(task.updated_at),
+        ends_in: task.ends_in,
+        created_at: task.created_at,
+        updated_at: task.updated_at,
         priority: task.priority,
         status: task.status,
         author_id: task.author_id,

@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Form, Spin } from "antd";
+import { Form } from "antd";
 import { auth } from "../store/auth";
 import dayjs from "dayjs";
 import { observer } from "mobx-react-lite";
@@ -7,12 +7,12 @@ import { formattedDate } from "../functions/formattedDate";
 import { FormFields } from "./FormComponents/FormFields";
 import { tasks } from "../store/tasks";
 import { compareObjects } from "../functions/compareObjects";
-
 const dateFormat = "DD/MM/YYYY";
 
 export const EditTaskForm = observer(() => {
     const isLoading = tasks.taskLoading;
     const taskId = tasks.selectedTask.id;
+    //если выдающий задачи не является авторизованным руководителем, то форма не будет доступна
     const formAvailabale = auth.userFullName !== tasks.selectedTask.author;
 
     const defaultValues = {
@@ -22,8 +22,7 @@ export const EditTaskForm = observer(() => {
         inspector_value: tasks.selectedTask.inspector_value,
         title: tasks.selectedTask.title,
         description: tasks.selectedTask.description,
-        // ends_in: formattedDate(tasks.selectedTask.ends_in),
-        ends_in: tasks.selectedTask.ends_in,
+        ends_in: formattedDate(tasks.selectedTask.ends_in),
     };
 
     const onFinish = (values) => {
@@ -38,9 +37,9 @@ export const EditTaskForm = observer(() => {
                     : values.inspector.content,
             updated_at: new Date(),
         };
-        const formIsChaged = compareObjects(defaultValues, changeOfTask);
         //функция compareObjects проверяет, изменилось ли хоть одно поле
         //воизбежание отправки неизмененной формы на сервер
+        const formIsChaged = compareObjects(defaultValues, changeOfTask);
         if (formIsChaged) {
             tasks.changeTask(changeOfTask, taskId);
         }

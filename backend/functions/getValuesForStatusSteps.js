@@ -1,3 +1,5 @@
+import { formattedDate } from "./formattedDate.js";
+
 const statusAndDates = [
     {
         id: 0,
@@ -23,7 +25,7 @@ export const getValuesForStatusSteps = (created, updated) => {
         const newObj = {
             id: i,
             statusTitle: statusAndDates[i].statusTitle,
-            date: i === 0 ? created : updated,
+            date: i === 0 ? formattedDate(created) : formattedDate(updated),
         };
         newArr.push(newObj);
     }

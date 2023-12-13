@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Form } from "antd";
 import { auth } from "../store/auth";
-import dayjs from "dayjs";
 import { observer } from "mobx-react-lite";
-import { formattedDate } from "../functions/formattedDate";
 import { FormFields } from "./FormComponents/FormFields";
 import { tasks } from "../store/tasks";
-
-const dateFormat = "DD/MM/YYYY";
 
 export const CreateNewTaskForm = observer(() => {
     const [form] = Form.useForm();
@@ -33,7 +29,6 @@ export const CreateNewTaskForm = observer(() => {
         }
     }, [formCreated, form]);
     const authorDefaultfValue = auth.userFullName;
-    const ends_inDefaultValue = formattedDate();
     return (
         <>
             <Form
@@ -52,7 +47,7 @@ export const CreateNewTaskForm = observer(() => {
                     },
                     title: ``,
                     description: ``,
-                    ends_in: dayjs(`${ends_inDefaultValue}`, dateFormat),
+                    ends_in: ``,
                 }}
             >
                 <FormFields isNewForm={true} />
