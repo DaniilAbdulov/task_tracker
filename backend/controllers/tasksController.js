@@ -8,11 +8,6 @@ class TasksController {
     async getTasksList(req, res) {
         try {
             const { id, role } = req.user;
-            //данные для пагинации
-            const page = parseInt(req.query.page);
-            const pageSize = parseInt(req.query.pageSize);
-            console.log([page, pageSize]);
-            const offset = (page - 1) * pageSize;
             //запрос на получение записей
             const list = await db
                 .select([
@@ -34,26 +29,9 @@ class TasksController {
                     }
                     // Для 'director', никаких ограничений на записи нет
                 })
-                .orderBy("t.updated_at", "asc")
-                .limit(pageSize)
-                .offset(offset);
+                .orderBy("t.updated_at", "asc");
             if (!list.length) {
                 throw new Error("Ошибка получения списка задач");
-            }
-            //кол-во всех записей для пагинации
-            const totalRecordsResult = await db("tasks as t")
-                .modify((queryBuilder) => {
-                    if (role === "employee") {
-                        queryBuilder.where("t.inspector_id", id);
-                    }
-                    // Для 'director', никаких ограничений на записи нет
-                })
-                .count("* as count")
-                .first();
-
-            const totalRecords = parseInt(totalRecordsResult.count, 10);
-            if (isNaN(totalRecords) || totalRecords < 0) {
-                throw new Error("Ошибка получения количества всех задач");
             }
             const tasksList = list.map((task) => ({
                 ...task,
@@ -62,7 +40,7 @@ class TasksController {
 
             //если все ок, то отпаравляем ответ
             setTimeout(() => {
-                return res.status(200).json({ tasksList, totalRecords });
+                return res.status(200).json({ tasksList });
             }, 2000);
         } catch (error) {
             const e = error.message;
@@ -191,7 +169,6 @@ class TasksController {
                     "Ошибка доьбавления новой задачи в базу данных"
                 );
             }
-
             setTimeout(() => {
                 return res.status(200).json({
                     message: `Задача создана`,
@@ -235,7 +212,6 @@ class TasksController {
             if (!tryToChangeTask) {
                 throw new Error("Ошибка изменения задачи");
             }
-            console.log("Я дошел до сюда, но не должен был");
             setTimeout(() => {
                 return res.status(200).json({
                     message: `Задача изменена`,

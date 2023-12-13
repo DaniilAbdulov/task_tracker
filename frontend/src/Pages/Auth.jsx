@@ -12,9 +12,6 @@ const onFinish = (values) => {
     };
     auth.loginUser(candidat);
 };
-const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-};
 
 export const Auth = observer(() => {
     const authLoading = auth.isLoading;
@@ -36,7 +33,6 @@ export const Auth = observer(() => {
                     remember: true,
                 }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
                 size="large"
                 style={{
                     background: "white",
@@ -44,7 +40,7 @@ export const Auth = observer(() => {
                     borderRadius: "10px",
                 }}
             >
-                <Title level={3}>Task Tracker</Title>
+                <Title level={3}>Todo list</Title>
                 <Form.Item
                     name="login"
                     rules={[

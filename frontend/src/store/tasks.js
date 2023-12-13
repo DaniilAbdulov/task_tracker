@@ -12,7 +12,6 @@ class Tasks {
     errorMessage = "";
     successMessage = "";
     tasksList = [];
-    totalRecords = null;
 
     constructor() {
         makeAutoObservable(this);
@@ -20,7 +19,6 @@ class Tasks {
     clearTasksList() {
         this.tasksList = [];
         this.selectedTask = {};
-        this.totalRecords = null;
     }
     clearMessage() {
         if (this.successMessage) {
@@ -29,17 +27,11 @@ class Tasks {
             this.errorMessage = "";
         }
     }
-    async getTasksList(page, pageSize) {
+    async getTasksList() {
         this.tasksListFetching = true;
         try {
-            const res = await axios.get(`${API_URL}/tasks/getTasksList`, {
-                params: {
-                    page,
-                    pageSize,
-                },
-            });
+            const res = await axios.get(`${API_URL}/tasks/getTasksList`);
             this.tasksList = res.data.tasksList;
-            this.totalRecords = res.data.totalRecords;
             this.tasksListFetching = false;
             return res.data;
         } catch (error) {

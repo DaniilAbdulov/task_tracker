@@ -9,22 +9,18 @@ import { auth } from "../store/auth";
 import { EditTaskForm } from "./EditTaskForm";
 
 export const TasksTable = observer(() => {
-    const data = tasks.tasksList;
-    const tableDataLoading = tasks.tasksListFetching || employees.isLoading;
-
-    const [filteredInfo, setFilteredInfo] = useState({});
-    const [sortedInfo, setSortedInfo] = useState({});
-    const [currentPage, setCurrentPage] = useState(1);
-    const [currentPageSize, setCurrentPageSize] = useState(10);
-    //Число всех задач
-    const totalRecords = tasks.totalRecords;
-    //если объект содержит 12 ключей, то его можно отображать
-    const taskDataIsAvailable = Object.keys(tasks.selectedTask).length === 12;
+    //получаем список всех задач
+    useEffect(() => {
+        tasks.getTasksList();
+    }, []);
     const isDirector = auth.isDirector;
-    const [showEditTaskModal, setShowEditTaskModal] = useState(false);
     //список работников
     const employeesList = employees.employeesList;
-    const [employeesFilter, setEmployeesFilter] = useState(employeesList);
+    const data = tasks.tasksList;
+    const tableDataLoading = tasks.tasksListFetching || employees.isLoading;
+    //если объект содержит 12 ключей, то его можно отображать
+    const taskDataIsAvailable = Object.keys(tasks.selectedTask).length === 12;
+    const [showEditTaskModal, setShowEditTaskModal] = useState(false);
     //названия столбоцов и данные в них
     const columns = [
         {
@@ -93,7 +89,6 @@ export const TasksTable = observer(() => {
                 { text: "Больше недели", value: "month" },
             ],
             filterMode: "menu",
-            filteredValue: filteredInfo.ends_in || null,
             onFilter: (value, record) => {
                 const daysDiff = compareDate(record.ends_in);
                 switch (value) {
@@ -122,16 +117,12 @@ export const TasksTable = observer(() => {
                       return firstVal.localeCompare(secondVal);
                   }
                 : null,
-            filters:
-                isDirector && employeesList.length ? employeesFilter : null,
+            filters: isDirector && employeesList.length ? employeesList : null,
             filterMode: "menu",
             filterSearch: true,
-            filteredValue: filteredInfo.inspector || null,
             onFilter: (value, record) => {
                 return value === record.inspector;
             },
-            sortOrder:
-                sortedInfo.columnKey === "inspector" ? sortedInfo.order : null,
         },
         {
             title: "Статус",
@@ -139,45 +130,12 @@ export const TasksTable = observer(() => {
             dataIndex: "status",
         },
     ];
-    const handleChange = (pagination, filters, sorter) => {
-        // Устанавливаем информацию о фильтрах и сортировке
-        setFilteredInfo(filters);
-        setSortedInfo(sorter);
-        // Обработка фильтров
-        let newEmployees;
-        if (filters && filters.inspector) {
-            // Применяем фильтр по инспекторам
-            newEmployees = employees.employeesList.filter((record) =>
-                filters.inspector.includes(record.value)
-            );
-        } else {
-            // Если фильтра нет, используем исходный список
-            newEmployees = [...employees.employeesList];
-        }
-        setEmployeesFilter(newEmployees);
-        if (
-            currentPage !== pagination.current ||
-            currentPageSize !== pagination.pageSize
-        ) {
-            tasks.getTasksList(pagination.current, pagination.pageSize);
-            setCurrentPage(pagination.current);
-            setCurrentPageSize(pagination.pageSize);
-            //сбрасываем фильтры и сортировки
-            setFilteredInfo({});
-            setSortedInfo({});
-            setEmployeesFilter(employees.employeesList);
-        }
-    };
-    useEffect(() => {
-        tasks.getTasksList(currentPage, currentPageSize);
-    }, []);
 
     const handleRowClick = (record) => {
         const id = record.id;
         setShowEditTaskModal(true);
         tasks.getTaskData(id);
     };
-
     const rowProps = (record) => {
         return {
             onClick: () => handleRowClick(record),
@@ -186,18 +144,13 @@ export const TasksTable = observer(() => {
     return (
         <>
             <Table
-                pagination={{
-                    defaultCurrent: 1,
-                    total: totalRecords,
-                }}
+                pagination={false}
                 rowKey="id"
                 onRow={rowProps}
                 columns={columns}
                 dataSource={data}
                 loading={tableDataLoading}
-                onChange={handleChange}
             ></Table>
-
             <ModalWindow
                 visible={showEditTaskModal}
                 setVisible={setShowEditTaskModal}

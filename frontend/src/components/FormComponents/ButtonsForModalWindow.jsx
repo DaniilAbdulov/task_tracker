@@ -1,13 +1,23 @@
-// import { useState } from "react";
 import { Button, Space } from "antd";
 import { observer } from "mobx-react-lite";
 import { auth } from "../../store/auth";
 import { tasks } from "../../store/tasks";
-import { useState } from "react";
 
 export const ButtonsForModalWindow = observer(({ isNewForm }) => {
-    const [taskId, setTaskId] = useState(tasks.selectedTask.id);
+    const taskId = tasks.selectedTask.id;
     const isDirector = auth.isDirector;
+    const status = tasks.selectedTask.status;
+    const currentUser = auth.userFullName;
+    const task_author = tasks.selectedTask.author;
+    function cancelAndEditBtnDisable(s, c, t) {
+        if (s === "Выполнена" || s === "Отменена") {
+            return false;
+        }
+        if (c !== t) {
+            return false;
+        }
+        return true;
+    }
     const action = isDirector ? (isNewForm ? "create" : "edit") : "check";
     const taskStatus = tasks.currentStatus;
     const isLoading = tasks.taskLoading;
@@ -18,8 +28,7 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
         return;
     };
     const handleChange = () => {
-        alert(`Изменить задачу`);
-        //setVisible(false);
+        return;
     };
     const formButtons = [
         {
@@ -65,12 +74,13 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                 color: "white",
                 backgroundColor: "blue",
             },
-            isDisabled:
-                taskStatus === "К выполнению" ||
-                taskStatus === "Выполняется" ||
-                auth.userFullName === tasks.selectedTask.author
-                    ? false
-                    : true,
+            isDisabled: cancelAndEditBtnDisable(
+                status,
+                currentUser,
+                task_author
+            )
+                ? false
+                : true,
         },
         {
             id: 4,
@@ -84,10 +94,13 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                 color: "red",
                 backgroundColor: "",
             },
-            isDisabled:
-                taskStatus === "К выполнению" || taskStatus === "Выполняется"
-                    ? false
-                    : true,
+            isDisabled: cancelAndEditBtnDisable(
+                status,
+                currentUser,
+                task_author
+            )
+                ? false
+                : true,
         },
         {
             id: 5,

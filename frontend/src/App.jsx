@@ -1,7 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
 import "./App.scss";
 import { Router } from "./Router/Router";
-import { ConfigProvider, Layout, theme } from "antd";
+import { ConfigProvider, Flex, Layout, theme } from "antd";
 import { observer } from "mobx-react-lite";
 import { auth } from "./store/auth";
 import etagi_logo from "./asserts/etagi_logo.webp";
@@ -51,13 +51,16 @@ export const App = observer(() => {
                             <img src={etagi_logo} alt="" />
                         </div>
                         {isAuth && (
-                            <div className="demo-logo">
-                                <LogoutOutlined
-                                    title="Выйти"
-                                    onClick={logOut}
-                                    style={{ cursor: "pointer" }}
-                                />
-                            </div>
+                            <Flex>
+                                <p>{auth.userFullName}</p>
+                                <div className="demo-logo">
+                                    <LogoutOutlined
+                                        title="Выйти"
+                                        onClick={logOut}
+                                        style={{ cursor: "pointer" }}
+                                    />
+                                </div>
+                            </Flex>
                         )}
                     </Header>
                     <Layout>

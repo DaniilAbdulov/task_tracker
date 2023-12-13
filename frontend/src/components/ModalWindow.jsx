@@ -5,6 +5,7 @@ import { tasks } from "../store/tasks";
 
 const ModalWindow = observer(({ visible, setVisible, children }) => {
     const formHasEdited = tasks.successMessage || tasks.errorMessage;
+    //если форма была изменена то закрываем окно
     useEffect(() => {
         if (formHasEdited) {
             setVisible(false);
