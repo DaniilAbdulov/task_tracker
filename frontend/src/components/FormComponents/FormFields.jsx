@@ -84,7 +84,7 @@ export const FormFields = observer(({ isNewForm }) => {
                     },
                 ]}
             >
-                <Input.TextArea showCount maxLength={254} />
+                <Input.TextArea />
             </Form.Item>
             <Form.Item name="ends_in" label="Выполнить до" {...config}>
                 <DatePicker format={dateFormat} />
