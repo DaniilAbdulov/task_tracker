@@ -1,6 +1,29 @@
 .App {
-    border: 1px solid black;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 10px 15px;
+    // max-width: 1200px;
+    // margin: 0 auto;
+    // padding: 10px 15px;
+}
+
+.demo-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    font-size: 25px;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.modal-window {
+    margin-bottom: 20px;
+}
+$backroundImageLink: "../src/asserts/backgroundEtagi.webp";
+.auth-form {
+    background-image: url($backroundImageLink);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
