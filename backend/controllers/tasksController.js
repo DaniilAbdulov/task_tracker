@@ -33,7 +33,9 @@ class TasksController {
                 // последнего обновления
                 .orderBy("t.updated_at", "asc");
             if (!list.length) {
-                throw new Error("Ошибка получения списка задач");
+                return res
+                    .status(400)
+                    .json({ message: "Ошибка получения списка задач" });
             }
             const tasksList = list.map((task) => ({
                 ...task,
@@ -41,19 +43,21 @@ class TasksController {
             }));
 
             //если все ок, то отпаравляем ответ
-            setTimeout(() => {
-                return res.status(200).json({ tasksList });
-            }, 2000);
+
+            return res.status(200).json({ tasksList });
         } catch (error) {
-            const e = error.message;
-            return res.status(400).json({ message: e });
+            return res
+                .status(500)
+                .json({ message: "Непредвиденная ошибка сервера" });
         }
     }
     async getTaskData(req, res) {
         try {
             const taskId = parseInt(req.query.taskId);
             if (!taskId || taskId <= 0) {
-                throw new Error("Ошибка получения номера задачи");
+                return res
+                    .status(422)
+                    .json({ message: "Некорректный id задачи" });
             }
             const taskData = await db("tasks as t")
                 .select(
@@ -78,7 +82,9 @@ class TasksController {
                 .where("t.id", taskId)
                 .first();
             if (!taskData) {
-                throw new Error("Ошибка получения информации о задаче");
+                return res
+                    .status(400)
+                    .json({ message: "Ошибка получения данных о задаче" });
             }
             const selectedTask = formattedTaskData(taskData);
             const statusAndDates = getValuesForStatusSteps(
@@ -86,14 +92,14 @@ class TasksController {
                 selectedTask.updated_at
             );
             const currentStatus = selectedTask.status;
-            setTimeout(() => {
-                return res
-                    .status(200)
-                    .json({ selectedTask, statusAndDates, currentStatus });
-            }, 2000);
+
+            return res
+                .status(200)
+                .json({ selectedTask, statusAndDates, currentStatus });
         } catch (error) {
-            const e = error.message;
-            return res.status(400).json({ message: e });
+            return res
+                .status(500)
+                .json({ message: "Непредвиденная ошибка сервера" });
         }
     }
     async changeTaskStatus(req, res) {
@@ -105,7 +111,7 @@ class TasksController {
                 typeof taskId !== "number" ||
                 taskId <= 0
             ) {
-                throw new Error("Некорректные данные");
+                return res.status(422).json({ message: "Некорректные данные" });
             }
 
             const currentStatus = await db
@@ -114,7 +120,9 @@ class TasksController {
                 .where("id", "=", taskId)
                 .first();
             if (currentStatus.status === newStatus) {
-                throw new Error("Статус уже был изменен");
+                return res
+                    .status(400)
+                    .json({ message: "Статус уже был изменен" });
             }
             const tryToChangeStatus = await db("tasks")
                 .where("id", "=", taskId)
@@ -123,23 +131,27 @@ class TasksController {
                     updated_at: new Date(),
                 });
             if (!tryToChangeStatus) {
-                throw new Error("Ошибка изменения статуса");
+                return res
+                    .status(400)
+                    .json({ message: "Ошибка изменения статуса" });
             }
-            setTimeout(() => {
-                return res.status(200).json({
-                    message: `Статус задания - ${newStatus}`,
-                });
-            }, 2000);
+
+            return res.status(200).json({
+                message: `Статус задания - ${newStatus}`,
+            });
         } catch (error) {
-            const e = error.message;
-            return res.status(400).json({ message: e });
+            return res
+                .status(500)
+                .json({ message: "Непредвиденная ошибка сервера" });
         }
     }
     async createNewTask(req, res) {
         try {
             const dataIsValid = validateTaskFields(req.body.params.newTask);
             if (!dataIsValid) {
-                throw new Error("Данные из формы не корректны");
+                return res
+                    .status(422)
+                    .json({ message: "Данные из формы не корректны" });
             }
             const {
                 title,
@@ -167,31 +179,35 @@ class TasksController {
                 tryToCreateNewTask.command !== "INSERT" ||
                 !tryToCreateNewTask.rowCount
             ) {
-                throw new Error(
-                    "Ошибка доьбавления новой задачи в базу данных"
-                );
+                return res
+                    .status(400)
+                    .json({ message: "Ошибка добавления задачи" });
             }
-            setTimeout(() => {
-                return res.status(200).json({
-                    message: `Задача создана`,
-                });
-            }, 2000);
+
+            return res.status(200).json({
+                message: `Задача создана`,
+            });
         } catch (error) {
-            const e = error.message;
-            return res.status(400).json({ message: e });
+            return res
+                .status(500)
+                .json({ message: "Непредвиденная ошибка сервера" });
         }
     }
     async changeTask(req, res) {
         try {
             const taskId = parseInt(req.body.params.taskId);
             if (typeof taskId !== "number" || taskId <= 0) {
-                throw new Error("Некорректные id задачи");
+                return res
+                    .status(422)
+                    .json({ message: "Некорректный id задачи" });
             }
             const dataIsValid = validateChangedTaskFields(
                 req.body.params.newValues
             );
             if (!dataIsValid) {
-                throw new Error("Данные из формы не корректны");
+                return res
+                    .status(422)
+                    .json({ message: "Данные из формы не корректны" });
             }
             const {
                 title,
@@ -212,16 +228,18 @@ class TasksController {
                     inspector_id: inspector_id,
                 });
             if (!tryToChangeTask) {
-                throw new Error("Ошибка изменения задачи");
+                return res
+                    .status(400)
+                    .json({ message: "Ошибка изменения задачи" });
             }
-            setTimeout(() => {
-                return res.status(200).json({
-                    message: `Задача изменена`,
-                });
-            }, 2000);
+
+            return res.status(200).json({
+                message: `Задача изменена`,
+            });
         } catch (error) {
-            const e = error.message;
-            return res.status(400).json({ message: e });
+            return res
+                .status(500)
+                .json({ message: "Непредвиденная ошибка сервера" });
         }
     }
 }

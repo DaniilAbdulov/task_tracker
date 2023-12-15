@@ -11,14 +11,15 @@ class EmployeesController {
                 .where("role", "!=", "director");
             const employeesList = formattedEmployeesList(users);
             if (!users) {
-                throw new Error("Ошибка получения списка работников");
+                return res
+                    .status(404)
+                    .json({ message: "Список работников не найден" });
             }
-            setTimeout(() => {
-                return res.status(200).json({ employeesList });
-            }, 2000);
+            return res.status(200).json({ employeesList });
         } catch (error) {
-            const e = error.message;
-            return res.status(400).json({ message: e });
+            return res
+                .status(500)
+                .json({ message: "Непредвиденная ошибка сервера" });
         }
     }
 }

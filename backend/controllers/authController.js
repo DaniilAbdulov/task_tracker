@@ -12,7 +12,9 @@ class UserController {
         try {
             const { login, password } = req.body;
             if (!login || !password) {
-                throw new Error("Введены некорректные данные");
+                return res
+                    .status(422)
+                    .json({ message: "Введены некорректные данные" });
             }
             const findUser = await db("users").where("login", login).first();
             //             При неуспешной попытке авторизации отобразите на странице
@@ -20,8 +22,9 @@ class UserController {
             // существует
 
             if (!findUser) {
-                res.status(404).json({ message: "Нет такого пользователя" });
-                return;
+                return res
+                    .status(404)
+                    .json({ message: "Нет такого пользователя" });
             }
             const candidate = await db("users")
                 .select(
@@ -38,8 +41,7 @@ class UserController {
             );
             //.., пользователь ввел неверный пароль.
             if (!comparePassword) {
-                res.status(404).json({ message: "Неверный пароль" });
-                return;
+                return res.status(404).json({ message: "Неверный пароль" });
             }
             const token = generateJwt(
                 candidate.id,
@@ -51,19 +53,18 @@ class UserController {
                 full_name: candidate.full_name,
                 role: candidate.role,
             };
-            setTimeout(() => {
-                return res.json({ token, user });
-            }, 2000);
+            return res.json({ token, user });
         } catch (error) {
-            res.status(500).json({ message: "Внутренняя ошибка сервера" });
-            return;
+            return res
+                .status(500)
+                .json({ message: "Непредвиденная ошибка сервера" });
         }
     }
     async check(req, res) {
         try {
             const { id } = req.user;
             if (id <= 0) {
-                throw new Error("Некорректные данные");
+                return res.status(422).json({ message: "Некорректные данные" });
             }
             const currentUser = await db("users")
                 .select(
@@ -75,9 +76,10 @@ class UserController {
                 .where("id", id)
                 .first();
             if (!currentUser) {
-                throw new Error(
-                    "Ошибка получения данных авторизованного пользователя"
-                );
+                return res.status(400).json({
+                    message:
+                        "Ошибка получения данных об авторизованном пользователе",
+                });
             }
             const token = generateJwt(
                 currentUser.id,
@@ -89,12 +91,11 @@ class UserController {
                 full_name: currentUser.full_name,
                 role: currentUser.role,
             };
-            setTimeout(() => {
-                return res.json({ token, user });
-            }, 2000);
+            return res.json({ token, user });
         } catch (error) {
-            res.status(500).json({ message: "Внутренняя ошибка сервера" });
-            return;
+            return res
+                .status(500)
+                .json({ message: "Непредвиденная ошибка сервера" });
         }
     }
 }

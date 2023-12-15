@@ -18,17 +18,17 @@ export const seed = async function (knex) {
 
     await knex("users").insert([
         {
-            first_name: "Ильдар",
-            last_name: "Хусаинов",
-            third_name: "Борисович",
+            first_name: "Директор",
+            last_name: "Директоров",
+            third_name: "Директорович",
             login: "director1",
             password: hashedPasswords[0], // Использование хешированного пароля
             role: "director",
         },
         {
-            first_name: "Елена",
-            last_name: "Хусаинова",
-            third_name: "Владимировна",
+            first_name: "Директрисса",
+            last_name: "Директорова",
+            third_name: "Директоровна",
             login: "director2",
             password: hashedPasswords[1],
             role: "director",
