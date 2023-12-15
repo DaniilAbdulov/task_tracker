@@ -16,8 +16,5 @@
 }
 $backroundImageLink: "../src/asserts/backgroundEtagi.webp";
 .auth-form {
-    background-image: url($backroundImageLink);
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background: linear-gradient(90deg, #faf0cd, #fab397);
 }
