@@ -1,6 +1,5 @@
 import { formattedTaskData } from "../functions/formattedTaskData.js";
 import { db } from "../db/db.js";
-import { getValuesForStatusSteps } from "../functions/getValuesForStatusSteps.js";
 import { validateChangedTaskFields } from "../functions/validateChangedTaskFields.js";
 import { validateTaskFields } from "../functions/validateTaskFields.js";
 import { formattedDate } from "../functions/formattedDate.js";
@@ -60,11 +59,9 @@ class TasksController {
 
             const totalRecords = parseInt(totalRecordsResult.count, 10);
             if (isNaN(totalRecords) || totalRecords < 0) {
-                return res
-                    .status(400)
-                    .json({
-                        message: "Ошибка получения количества всех задач",
-                    });
+                return res.status(400).json({
+                    message: "Ошибка получения количества всех задач",
+                });
             }
             //если все ок, то отпаравляем ответ
             setTimeout(() => {
@@ -112,15 +109,7 @@ class TasksController {
                     .json({ message: "Ошибка получения данных о задаче" });
             }
             const selectedTask = formattedTaskData(taskData);
-            const statusAndDates = getValuesForStatusSteps(
-                selectedTask.created_at,
-                selectedTask.updated_at
-            );
-            const currentStatus = selectedTask.status;
-
-            return res
-                .status(200)
-                .json({ selectedTask, statusAndDates, currentStatus });
+            return res.status(200).json({ selectedTask });
         } catch (error) {
             return res
                 .status(500)

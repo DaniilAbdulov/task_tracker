@@ -2,9 +2,6 @@ import { makeAutoObservable } from "mobx";
 import { API_URL } from "../config";
 import axios from "axios";
 class Tasks {
-    currentStatus = "";
-    statusAndDates = [];
-    //
     tasksListFetching = false;
     //
     taskLoading = false;
@@ -58,8 +55,6 @@ class Tasks {
                 },
             });
             this.selectedTask = res.data.selectedTask;
-            this.currentStatus = res.data.currentStatus;
-            this.statusAndDates = res.data.statusAndDates;
             this.taskLoading = false;
             return res.data;
         } catch (error) {
