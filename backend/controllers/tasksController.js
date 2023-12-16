@@ -8,6 +8,10 @@ class TasksController {
     async getTasksList(req, res) {
         try {
             const { id, role } = req.user;
+            //данные для пагинации
+            const page = parseInt(req.query.page);
+            const pageSize = parseInt(req.query.pageSize);
+            const offset = (page - 1) * pageSize;
             //запрос на получение записей
             const list = await db
                 .select([
@@ -31,7 +35,9 @@ class TasksController {
                 })
                 //Без группировок: список всех задач, отсортированных по дате
                 // последнего обновления
-                .orderBy("t.updated_at", "asc");
+                .orderBy("t.updated_at", "asc")
+                .limit(pageSize)
+                .offset(offset);
             if (!list.length) {
                 return res
                     .status(400)
@@ -41,10 +47,29 @@ class TasksController {
                 ...task,
                 ends_in: formattedDate(task.ends_in),
             }));
+            //кол-во всех записей для пагинации
+            const totalRecordsResult = await db("tasks as t")
+                .modify((queryBuilder) => {
+                    if (role === "employee") {
+                        queryBuilder.where("t.inspector_id", id);
+                    }
+                    // Для 'director', никаких ограничений на записи нет
+                })
+                .count("* as count")
+                .first();
 
+            const totalRecords = parseInt(totalRecordsResult.count, 10);
+            if (isNaN(totalRecords) || totalRecords < 0) {
+                return res
+                    .status(400)
+                    .json({
+                        message: "Ошибка получения количества всех задач",
+                    });
+            }
             //если все ок, то отпаравляем ответ
-
-            return res.status(200).json({ tasksList });
+            setTimeout(() => {
+                return res.status(200).json({ tasksList, totalRecords });
+            }, 1000);
         } catch (error) {
             return res
                 .status(500)

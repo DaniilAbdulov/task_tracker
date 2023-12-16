@@ -7,12 +7,15 @@ import { employees } from "../store/employees";
 import { observer } from "mobx-react-lite";
 import { auth } from "../store/auth";
 import { EditTaskForm } from "./EditTaskForm";
+import { MyPagination } from "./UI/MyPagination";
 
 export const TasksTable = observer(() => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalTasksCount = tasks.totalRecords;
     //получаем список всех задач
     useEffect(() => {
-        tasks.getTasksList();
-    }, []);
+        tasks.getTasksList(currentPage, 10);
+    }, [currentPage]);
     const isDirector = auth.isDirector;
     //список работников
     const employeesList = employees.employeesList;
@@ -181,20 +184,11 @@ export const TasksTable = observer(() => {
                     </Flex>
                 )}
             </ModalWindow>
+            <MyPagination
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalCount={totalTasksCount}
+            />
         </>
     );
 });
-
-
-/*В ТЗ не было сказано про добавление функционала пагинации, 
-но мною была предприянта попытка ее осуществить. 
-У библиотеки antDesign в компоненте Table есть встроенный фукнционал. 
-Пагинацию я осуществил. На Бэке был кусок кода 
-отвечающий за определенный лимит записей и 
-начальной позиции(можно увидеть в истории коммитов), но 
-у предоставляемой API была проблема: 
-при нахождениии на 2-3... страницах и установке какого-либо фильтра, 
-автоматически отправлялся новый запрос на сервер 
-с Номером страницы - 1 и количеством записей - 10. 
-Пофиксить я это так и не смог, поэтому, 
-согласно ТЗ оставил все без пагинации.*/
