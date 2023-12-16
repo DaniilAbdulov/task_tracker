@@ -3,6 +3,7 @@ import { db } from "../db/db.js";
 import { validateChangedTaskFields } from "../functions/validateChangedTaskFields.js";
 import { validateTaskFields } from "../functions/validateTaskFields.js";
 import { formattedDate } from "../functions/formattedDate.js";
+
 class TasksController {
     async getTasksList(req, res) {
         try {
@@ -119,11 +120,12 @@ class TasksController {
     async changeTaskStatus(req, res) {
         try {
             const taskId = parseInt(req.body.params.taskId);
-            const newStatus = req.body.params.newStatus;
+            const newStatus = parseInt(req.body.params.newStatus);
             if (
-                typeof newStatus !== "string" ||
+                typeof newStatus !== "number" ||
                 typeof taskId !== "number" ||
-                taskId <= 0
+                taskId <= 0 ||
+                newStatus <= 1
             ) {
                 return res.status(422).json({ message: "Некорректные данные" });
             }
@@ -151,7 +153,7 @@ class TasksController {
             }
 
             return res.status(200).json({
-                message: `Статус задания - ${newStatus}`,
+                message: `Статус задания изменен`,
             });
         } catch (error) {
             return res

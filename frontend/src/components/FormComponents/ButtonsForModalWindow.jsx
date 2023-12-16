@@ -4,13 +4,22 @@ import { auth } from "../../store/auth";
 import { tasks } from "../../store/tasks";
 
 export const ButtonsForModalWindow = observer(({ isNewForm }) => {
-    const taskId = tasks.selectedTask.id;
     const isDirector = auth.isDirector;
-    const status = tasks.selectedTask.status;
     const currentUser = auth.userFullName;
+    /*Если авторизован директор, то, если это новая задача, 
+    то будет только одна кнопка "Создать", 
+    если не новая, то будут кнопки "Изменить" и "Отменить". 
+    Иначе будут кнопки пользователя: 
+    "Принять к выполнению" и "Выполнено"*/
+    const action = isDirector ? (isNewForm ? "create" : "edit") : "check";
+
+    const taskId = tasks.selectedTask.id;
     const task_author = tasks.selectedTask.author;
+    const taskStatus = tasks.selectedTask.status;
+    const isLoading = tasks.taskLoading;
+    //Недоступность кнопок в зависимости от статуса
     function cancelAndEditBtnDisable(s, c, t) {
-        if (s === "Выполнена" || s === "Отменена") {
+        if (s === 3 || s === 4) {
             return false;
         }
         if (c !== t) {
@@ -18,9 +27,7 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
         }
         return true;
     }
-    const action = isDirector ? (isNewForm ? "create" : "edit") : "check";
-    const taskStatus = tasks.currentStatus;
-    const isLoading = tasks.taskLoading;
+    //отправляем на бэкенд запрос на изменение задачи с id - taskId
     const handleChangeStatus = (taskId, key) => {
         tasks.changeTaskStatus(taskId, key);
     };
@@ -32,7 +39,7 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
     };
     const formButtons = [
         {
-            id: 1,
+            id: 2,
             key: "Выполняется",
             clickHandler: handleChangeStatus,
             type: "default",
@@ -43,10 +50,10 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                 color: "",
                 backgroundColor: "",
             },
-            isDisabled: taskStatus === "К выполнению" ? false : true,
+            isDisabled: taskStatus !== 1,
         },
         {
-            id: 2,
+            id: 3,
             key: "Выполнена",
             clickHandler: handleChangeStatus,
             type: "primary",
@@ -57,13 +64,10 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                 color: "",
                 backgroundColor: "green",
             },
-            isDisabled:
-                taskStatus === "Выполняется" || taskStatus === "К выполнению"
-                    ? false
-                    : true,
+            isDisabled: taskStatus === 2 || taskStatus === 1 ? false : true,
         },
         {
-            id: 3,
+            id: 1,
             key: "change",
             clickHandler: handleChange,
             type: "default",
@@ -74,13 +78,11 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                 color: "white",
                 backgroundColor: "blue",
             },
-            isDisabled: cancelAndEditBtnDisable(
-                status,
+            isDisabled: !cancelAndEditBtnDisable(
+                taskStatus,
                 currentUser,
                 task_author
-            )
-                ? false
-                : true,
+            ),
         },
         {
             id: 4,
@@ -94,13 +96,11 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                 color: "red",
                 backgroundColor: "",
             },
-            isDisabled: cancelAndEditBtnDisable(
-                status,
+            isDisabled: !cancelAndEditBtnDisable(
+                taskStatus,
                 currentUser,
                 task_author
-            )
-                ? false
-                : true,
+            ),
         },
         {
             id: 5,
@@ -126,7 +126,7 @@ export const ButtonsForModalWindow = observer(({ isNewForm }) => {
                     <Button
                         key={btn.key}
                         type={btn.type}
-                        onClick={() => btn.clickHandler(taskId, btn.key)}
+                        onClick={() => btn.clickHandler(taskId, btn.id)}
                         htmlType={btn.htmlType}
                         style={btn.style}
                         disabled={btn.isDisabled || isLoading}
