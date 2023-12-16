@@ -6,8 +6,7 @@ const { Option } = Select;
 export const SelectValues = observer(
     ({ value = {}, onChange, optionValues }) => {
         //если длина массива 3, то она содержит ФИО
-        const optionValuesLen = optionValues[0].value.split(" ").length;
-        const isUsersArray = optionValuesLen === 3;
+
         const [content, setContent] = useState("");
 
         const triggerChange = (changedValue) => {
@@ -37,11 +36,9 @@ export const SelectValues = observer(
                     style={{ minWidth: 250 }}
                 >
                     {optionValues.map((item) => {
+                        console.log(item);
                         return (
-                            <Option
-                                key={item.id}
-                                value={isUsersArray ? item.id : item.value}
-                            >
+                            <Option key={item.id} value={item.id}>
                                 {item.value}
                             </Option>
                         );
