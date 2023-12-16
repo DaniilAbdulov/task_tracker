@@ -8,11 +8,13 @@ import { observer } from "mobx-react-lite";
 import { auth } from "../store/auth";
 import { EditTaskForm } from "./EditTaskForm";
 import { MyPagination } from "./UI/MyPagination";
+import { priorities } from "../data/priorities";
+import { statuses } from "../data/statuses";
 
 export const TasksTable = observer(() => {
     const [currentPage, setCurrentPage] = useState(1);
     const totalTasksCount = tasks.totalRecords;
-    //получаем список всех задач
+    //получаем список всех задач с определнным лимитом
     useEffect(() => {
         tasks.getTasksList(currentPage, 10);
     }, [currentPage]);
@@ -33,7 +35,7 @@ export const TasksTable = observer(() => {
             dataIndex: "title",
             key: "title",
             render: (text, status) => {
-                const isDone = status.status === "Выполнена";
+                const isDone = status.status === 3;
                 //если текущая дата меньше, чем дата завершения задачи, то функция вернет true
                 const toLate = compareDate(status.ends_in) < 0;
                 return (
@@ -56,15 +58,17 @@ export const TasksTable = observer(() => {
                 return (
                     <Tag
                         color={
-                            priority === "Высокий"
+                            priority === 1
                                 ? "red"
-                                : priority === "Средний"
+                                : priority === 2
                                 ? "yellow"
                                 : "green"
                         }
                         key={priority}
                     >
-                        {priority.toUpperCase()}
+                        {priorities
+                            .filter((p) => p.id === priority)
+                            .map((p) => p.label)}
                     </Tag>
                 );
             },
@@ -142,6 +146,15 @@ export const TasksTable = observer(() => {
             title: "Статус",
             key: "status",
             dataIndex: "status",
+            render: (text) => {
+                return (
+                    <p key={text}>
+                        {statuses
+                            .filter((s) => s.id === text)
+                            .map((s) => s.value)}
+                    </p>
+                );
+            },
         },
     ];
 

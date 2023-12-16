@@ -4,11 +4,11 @@ export function up(knex) {
             table.increments("id").primary();
             table.string("title").notNullable();
             table.string("description").notNullable();
-            table.string("priority").notNullable();
+            table.integer("priority").notNullable();
             table.date("ends_in").notNullable();
             table.date("created_at").notNullable();
             table.date("updated_at").notNullable();
-            table.string("status").notNullable();
+            table.integer("status").notNullable();
             table.integer("inspector_id").unsigned().notNullable();
             table.integer("author_id").unsigned().notNullable();
             table
