@@ -7,6 +7,7 @@ import { formattedDate } from "../functions/formattedDate";
 import { FormFields } from "./FormComponents/FormFields";
 import { tasks } from "../store/tasks";
 import { compareObjects } from "../functions/compareObjects";
+import { priorities } from "../data/priorities";
 const dateFormat = "DD/MM/YYYY";
 
 export const EditTaskForm = observer(() => {
@@ -24,13 +25,22 @@ export const EditTaskForm = observer(() => {
         description: tasks.selectedTask.description,
         ends_in: formattedDate(tasks.selectedTask.ends_in),
     };
+    const defaultPriority =
+        defaultValues.priority === 1
+            ? "Высокий"
+            : defaultValues.priority === 2
+            ? "Средний"
+            : "Низкий";
 
     const onFinish = (values) => {
         const changeOfTask = {
             title: values.title,
             description: values.description,
             ends_in: values.ends_in,
-            priority: values.priority.content,
+            priority:
+                values.priority.content === defaultPriority
+                    ? defaultValues.priority
+                    : values.priority.content,
             inspector_id:
                 values.inspector.content === defaultValues.inspector_value
                     ? defaultValues.inspector_id
@@ -59,7 +69,7 @@ export const EditTaskForm = observer(() => {
                         content: `${defaultValues.inspector_value}`,
                     },
                     priority: {
-                        content: `${defaultValues.priority}`,
+                        content: `${defaultPriority}`,
                     },
                     title: `${defaultValues.title}`,
                     description: `${defaultValues.description}`,

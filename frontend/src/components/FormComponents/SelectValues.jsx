@@ -5,8 +5,6 @@ import { observer } from "mobx-react-lite";
 const { Option } = Select;
 export const SelectValues = observer(
     ({ value = {}, onChange, optionValues }) => {
-        //если длина массива 3, то она содержит ФИО
-
         const [content, setContent] = useState("");
 
         const triggerChange = (changedValue) => {
@@ -36,7 +34,6 @@ export const SelectValues = observer(
                     style={{ minWidth: 250 }}
                 >
                     {optionValues.map((item) => {
-                        console.log(item);
                         return (
                             <Option key={item.id} value={item.id}>
                                 {item.value}

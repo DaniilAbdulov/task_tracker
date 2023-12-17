@@ -1,6 +1,9 @@
 export function validateChangedTaskFields(task) {
     // inspector_id - число
-    if (typeof task.inspector_id !== "number") {
+    if (
+        typeof task.inspector_id !== "number" &&
+        typeof task.priority !== "number"
+    ) {
         return false;
     }
     // Проверяем, что можно создать дату из ends_in, updated_at
@@ -10,8 +13,7 @@ export function validateChangedTaskFields(task) {
     // Проверяем, что остальные поля - строки
     if (
         typeof task.title !== "string" ||
-        typeof task.description !== "string" ||
-        typeof task.priority !== "string"
+        typeof task.description !== "string"
     ) {
         return false;
     }
