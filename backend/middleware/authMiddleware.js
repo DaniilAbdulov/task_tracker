@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import jwt from "jsonwebtoken";
 export default function authMiddleware(req, res, next) {
     if (req.method === "OPTIONS") {

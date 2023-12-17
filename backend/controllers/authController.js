@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import { db } from "../db/db.js";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 const generateJwt = (id, login, role) => {
     return jwt.sign({ id, login, role }, process.env.SECRET_KEY, {
         expiresIn: "1h",
@@ -11,16 +13,17 @@ class UserController {
     async login(req, res) {
         try {
             const { login, password } = req.body;
+
             if (!login || !password) {
                 return res
                     .status(422)
                     .json({ message: "Введены некорректные данные" });
             }
+
             const findUser = await db("users").where("login", login).first();
             //             При неуспешной попытке авторизации отобразите на странице
             // одну из возможных ошибок: пользователя с таким логином не
             // существует
-
             if (!findUser) {
                 return res
                     .status(404)
