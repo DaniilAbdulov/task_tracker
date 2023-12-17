@@ -78,7 +78,7 @@ export const TasksTable = observer(() => {
             dataIndex: "ends_in",
             key: "ends_in",
             render: (text, status) => {
-                const isDone = status.status === "Выполнена";
+                const isDone = status.status === 3;
                 //если текущая дата меньше, чем дата завершения задачи, то функция вернет true
                 const toLate = compareDate(status.ends_in) < 0;
                 return (

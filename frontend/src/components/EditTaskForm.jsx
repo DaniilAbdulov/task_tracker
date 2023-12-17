@@ -7,7 +7,6 @@ import { formattedDate } from "../functions/formattedDate";
 import { FormFields } from "./FormComponents/FormFields";
 import { tasks } from "../store/tasks";
 import { compareObjects } from "../functions/compareObjects";
-import { priorities } from "../data/priorities";
 const dateFormat = "DD/MM/YYYY";
 
 export const EditTaskForm = observer(() => {

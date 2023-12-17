@@ -21,7 +21,6 @@ export const CreateNewTaskForm = observer(() => {
             author_id: auth.userId,
             inspector_id: values.inspector.content,
         };
-        console.log(newTask);
         tasks.createNewTask(newTask);
     };
     useEffect(() => {

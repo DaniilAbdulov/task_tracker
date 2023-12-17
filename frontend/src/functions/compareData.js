@@ -1,9 +1,7 @@
 export const compareDate = (itemTime) => {
-    let date_now = new Date();
-    const newCurrentDate = itemTime.split("/").reverse().join("-");
-    let current_date = new Date(newCurrentDate);
-    date_now.setHours(0, 0, 0, 0);
-    current_date.setHours(0, 0, 0, 0);
-    const dateDiff = (current_date - date_now) / (24 * 60 * 60 * 1000);
-    return dateDiff;
+    const today = new Date().setHours(0, 0, 0, 0);
+    const selectedDate = new Date(
+        itemTime.split("/").reverse().join("-")
+    ).setHours(0, 0, 0, 0);
+    return (selectedDate - today) / (24 * 60 * 60 * 1000);
 };
