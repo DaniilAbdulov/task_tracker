@@ -17,10 +17,11 @@ export const CreateNewTaskForm = observer(() => {
             created_at: new Date(),
             updated_at: new Date(),
             priority: values.priority.content,
-            status: "К выполнению",
+            status: 1,
             author_id: auth.userId,
             inspector_id: values.inspector.content,
         };
+        console.log(newTask);
         tasks.createNewTask(newTask);
     };
     useEffect(() => {

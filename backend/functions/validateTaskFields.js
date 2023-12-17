@@ -1,8 +1,10 @@
 export function validateTaskFields(task) {
-    // author_id и inspector_id - числа
+    // author_id,inspector_id,priority,status - числа
     if (
         typeof task.author_id !== "number" ||
-        typeof task.inspector_id !== "number"
+        typeof task.inspector_id !== "number" ||
+        typeof task.priority !== "number" ||
+        typeof task.status !== "number"
     ) {
         return false;
     }
@@ -17,9 +19,7 @@ export function validateTaskFields(task) {
     // Проверяем, что остальные поля - строки
     if (
         typeof task.title !== "string" ||
-        typeof task.description !== "string" ||
-        typeof task.priority !== "string" ||
-        typeof task.status !== "string"
+        typeof task.description !== "string"
     ) {
         return false;
     }
