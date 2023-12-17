@@ -12,6 +12,11 @@ class TasksController {
             const page = parseInt(req.query.page);
             const pageSize = parseInt(req.query.pageSize);
             const offset = (page - 1) * pageSize;
+            if (typeof page !== "number" || typeof pageSize !== "number") {
+                return res
+                    .status(422)
+                    .json({ message: "Некорректные данные пагинации" });
+            }
             //запрос на получение записей
             const list = await db
                 .select([
@@ -67,7 +72,7 @@ class TasksController {
             //если все ок, то отпаравляем ответ
             setTimeout(() => {
                 return res.status(200).json({ tasksList, totalRecords });
-            }, 1000);
+            }, 500);
         } catch (error) {
             return res
                 .status(500)
