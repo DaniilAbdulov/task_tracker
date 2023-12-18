@@ -5,7 +5,7 @@ export const seed = async function (knex) {
             title: "at nulla suspendisse potenti cras in",
             description:
                 "in quis justo maecenas rhoncus aliquam lacus morbi quis tortor id nulla ultrices aliquet maecenas leo odio condimentum",
-            priority: 1,
+            priority: 2,
             ends_in: "2023-12-15T00:00:00",
             created_at: "2023-11-24T00:00:00",
             updated_at: "2023-12-20T00:00:00",
@@ -17,7 +17,7 @@ export const seed = async function (knex) {
             title: "orci luctus et",
             description:
                 "ridiculus mus etiam vel augue vestibulum rutrum rutrum neque aenean auctor gravida sem praesent id massa id nisl venenatis lacinia aenean sit amet justo morbi ut odio",
-            priority: 1,
+            priority: 3,
             ends_in: "2023-12-05T00:00:00",
             created_at: "2023-11-26T00:00:00",
             updated_at: "2023-12-20T00:00:00",
@@ -53,7 +53,7 @@ export const seed = async function (knex) {
             title: "maecenas tincidunt lacus at velit vivamus",
             description:
                 "tellus nulla ut erat id mauris vulputate elementum nullam varius nulla facilisi cras non velit nec nisi vulputate nonummy",
-            priority: 1,
+            priority: 2,
             ends_in: "2023-12-12T00:00:00",
             created_at: "2023-11-28T00:00:00",
             updated_at: "2023-12-22T00:00:00",
@@ -77,7 +77,7 @@ export const seed = async function (knex) {
             title: "ante ipsum primis in faucibus orci luctus",
             description:
                 "libero ut massa volutpat convallis morbi odio odio elementum eu interdum eu tincidunt in leo maecenas pulvinar lobortis est phasellus sit amet erat",
-            priority: 1,
+            priority: 3,
             ends_in: "2023-12-01T00:00:00",
             created_at: "2023-11-25T00:00:00",
             updated_at: "2023-12-24T00:00:00",
@@ -113,7 +113,7 @@ export const seed = async function (knex) {
             title: "eu orci mauris",
             description:
                 "condimentum curabitur in libero ut massa volutpat convallis morbi odio odio elementum eu interdum eu tincidunt in leo maecenas",
-            priority: 1,
+            priority: 2,
             ends_in: "2023-12-23T00:00:00",
             created_at: "2023-11-24T00:00:00",
             updated_at: "2023-12-27T00:00:00",
@@ -137,7 +137,7 @@ export const seed = async function (knex) {
             title: "ut mauris eget massa",
             description:
                 "odio porttitor id consequat in consequat ut nulla sed accumsan felis ut at dolor quis odio consequat varius",
-            priority: 2,
+            priority: 1,
             ends_in: "2023-12-21T00:00:00",
             created_at: "2023-11-24T00:00:00",
             updated_at: "2023-12-29T00:00:00",
@@ -161,7 +161,7 @@ export const seed = async function (knex) {
             title: "odio justo sollicitudin ut suscipit a",
             description:
                 "lorem integer tincidunt ante vel ipsum praesent blandit lacinia erat vestibulum",
-            priority: 2,
+            priority: 1,
             ends_in: "2023-12-21T00:00:00",
             created_at: "2023-11-27T00:00:00",
             updated_at: "2023-12-31T00:00:00",
@@ -185,7 +185,7 @@ export const seed = async function (knex) {
             title: "pede posuere nonummy integer",
             description:
                 "etiam pretium iaculis justo in hac habitasse platea dictumst etiam faucibus cursus urna ut tellus nulla ut erat id mauris vulputate elementum nullam varius nulla",
-            priority: 2,
+            priority: 3,
             ends_in: "2023-12-13T00:00:00",
             created_at: "2023-11-28T00:00:00",
             updated_at: "2024-01-03T00:00:00",
@@ -209,7 +209,7 @@ export const seed = async function (knex) {
             title: "nullam orci pede venenatis",
             description:
                 "leo maecenas pulvinar lobortis est phasellus sit amet erat nulla tempus vivamus in felis eu sapien cursus vestibulum proin eu mi nulla ac enim in tempor turpis",
-            priority: 2,
+            priority: 1,
             ends_in: "2023-12-21T00:00:00",
             created_at: "2023-11-26T00:00:00",
             updated_at: "2024-01-05T00:00:00",
@@ -233,7 +233,7 @@ export const seed = async function (knex) {
             title: "nulla tellus in",
             description:
                 "eros vestibulum ac est lacinia nisi venenatis tristique fusce congue diam id ornare imperdiet sapien urna pretium nisl ut",
-            priority: 2,
+            priority: 3,
             ends_in: "2023-12-22T00:00:00",
             created_at: "2023-11-28T00:00:00",
             updated_at: "2024-01-07T00:00:00",
@@ -245,7 +245,7 @@ export const seed = async function (knex) {
             title: "lacus at velit vivamus vel",
             description:
                 "sapien sapien non mi integer ac neque duis bibendum morbi non quam nec dui luctus rutrum nulla tellus",
-            priority: 2,
+            priority: 1,
             ends_in: "2023-12-14T00:00:00",
             created_at: "2023-11-28T00:00:00",
             updated_at: "2024-01-08T00:00:00",
@@ -257,7 +257,7 @@ export const seed = async function (knex) {
             title: "varius ut blandit non interdum in",
             description:
                 "est phasellus sit amet erat nulla tempus vivamus in felis eu sapien cursus vestibulum proin eu mi nulla ac enim in",
-            priority: 3,
+            priority: 1,
             ends_in: "2023-12-21T00:00:00",
             created_at: "2023-11-26T00:00:00",
             updated_at: "2024-01-09T00:00:00",
@@ -281,7 +281,7 @@ export const seed = async function (knex) {
             title: "sit amet eleifend pede",
             description:
                 "sit amet eleifend pede libero quis orci nullam molestie nibh in lectus pellentesque at nulla suspendisse potenti cras in purus eu",
-            priority: 3,
+            priority: 1,
             ends_in: "2023-12-30T00:00:00",
             created_at: "2023-11-24T00:00:00",
             updated_at: "2024-01-09T00:00:00",
@@ -317,7 +317,7 @@ export const seed = async function (knex) {
             title: "aliquam non mauris morbi",
             description:
                 "lorem ipsum dolor sit amet consectetuer adipiscing elit proin interdum mauris non ligula pellentesque ultrices phasellus id sapien",
-            priority: 3,
+            priority: 1,
             ends_in: "2023-12-17T00:00:00",
             created_at: "2023-11-22T00:00:00",
             updated_at: "2024-01-12T00:00:00",
@@ -341,7 +341,7 @@ export const seed = async function (knex) {
             title: "magna vestibulum aliquet ultrices erat tortor",
             description:
                 "at velit vivamus vel nulla eget eros elementum pellentesque quisque porta volutpat",
-            priority: 3,
+            priority: 2,
             ends_in: "2023-12-24T00:00:00",
             created_at: "2023-11-22T00:00:00",
             updated_at: "2024-01-14T00:00:00",
