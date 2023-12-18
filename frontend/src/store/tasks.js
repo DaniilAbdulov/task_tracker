@@ -65,7 +65,7 @@ class Tasks {
     async changeTaskStatus(taskId, newStatus) {
         try {
             this.taskLoading = true;
-            const res = await axios.put(`${API_URL}/tasks/changeTaskStatus`, {
+            const res = await axios.patch(`${API_URL}/tasks/changeTaskStatus`, {
                 params: {
                     taskId,
                     newStatus,
