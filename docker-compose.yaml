@@ -9,16 +9,18 @@ services:
   backend:
     build: ./backend
     ports:
-      - 5000:5000
+      - 4000:4000
     depends_on:
       - db
   db:
     image: postgres
-    build: ./db
+    restart: always
+    environment:
+      POSTGRES_DB: task-tracker
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 0896
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
     ports:
       - 5432:5432
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydb
 
