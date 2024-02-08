@@ -1,5 +1,5 @@
 # Загрузка базового образа с Node.js
-FROM node:14-alpine
+FROM node:21-alpine
 
 # Установка и кэширование зависимостей
 WORKDIR /app
