@@ -1,13 +1,22 @@
-FROM node:18-alpine
+# Загрузка базового образа с Node.js
+FROM node:14-alpine
 
+# Установка и кэширование зависимостей
 WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
 
-COPY package.json .
+# Копирование исходного кода
+COPY src ./src
 
-RUN npm install
+# Запуск сборки React-приложения
+RUN npm run build
 
-COPY . .
+# Установка сервера Nginx
+RUN npm install -g serve
 
-EXPOSE 3000
+# Копирование собранного приложения в папку, доступную для Nginx
+COPY build ./
 
-CMD ["npm", "start"]
+# Команда для запуска сервера приложения
+CMD ["serve", "-s", "."]
