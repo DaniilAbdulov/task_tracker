@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: "../.env" });
 import express from "express";
 import cors from "cors";
 import router from "./routes/index.js";
@@ -12,11 +12,11 @@ app.use(express.json());
 app.use("/api", router);
 
 const start = async () => {
-    try {
-        app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
-    } catch (e) {
-        console.log(e);
-    }
+  try {
+    app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 start();
