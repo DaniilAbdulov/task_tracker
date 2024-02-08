@@ -1,15 +1,13 @@
-FROM node:18-alpine
+# Загрузка базового образа с Node.js
+FROM node:14-alpine
 
-RUN npm install -g nodemon
-
+# Установка и кэширование зависимостей
 WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
 
-COPY package.json .
-
-RUN npm install
-
+# Копирование исходного кода
 COPY . .
 
-EXPOSE 4000
-
+# Команда для запуска сервера Express
 CMD ["npm", "run", "serve"]
