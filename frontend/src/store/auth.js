@@ -66,6 +66,16 @@ class Auth {
             }
         }
     }
+        async checkServer() {
+            try {
+                const res = await axios.get(`${API_URL}/checkServer`);
+                console.log(res);
+                return res;
+            } catch (error) {
+                console.log(error.message);
+            }
+        
+    }
     async loginUser(candidat) {
         this.isLoading = true;
         try {
