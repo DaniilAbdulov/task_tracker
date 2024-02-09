@@ -10,9 +10,9 @@ RUN npm ci
 COPY . .
 
 # RUN npm run knex:rollback
-RUN npm run start
 # RUN npm run knex:migrate
 # RUN npm run knex:seed
 
+
 # Команда для запуска сервера Express
-# CMD ["npm", "run", "serve"]
+CMD ["npm", "run", "start"]

@@ -1,26 +1,52 @@
 version: "3"
+
 services:
   frontend:
     build: ./frontend
+    container_name: frontend
     ports:
       - 3000:3000
-    depends_on:
-      - backend
+    tty: true
+    networks:
+      - node-network
+
   backend:
     build: ./backend
+    container_name: backend
+    tty: true
     ports:
       - 4000:4000
     depends_on:
       - db
+    networks:
+      - node-network
   db:
     image: postgres
+    container_name: db
+    tty: true
     restart: always
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1234
+      - POSTGRES_PASSWORD=1234
     volumes:
-      # - ./postgres-data:/var/lib/postgresql/data/some_name/
       - ./pgdata:/var/lib/postgresql/data
     ports:
       - 5432:5432
+    networks:
+      - node-network
+  nginx:
+    build:
+      context: nginx
+    container_name: nginx
+    restart: always
+    tty: true
+    ports:
+      - "8000:80"
+    networks:
+      - node-network
+    depends_on:
+      - backend
+      - frontend
+
+networks:
+  node-network:
+    driver: bridge
