@@ -16,9 +16,9 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_DB: task-tracker
+      POSTGRES_DB: postgres
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 0896
+      POSTGRES_PASSWORD: 1234
     volumes:
       # - ./postgres-data:/var/lib/postgresql/data/some_name/
       - ./pgdata:/var/lib/postgresql/data
