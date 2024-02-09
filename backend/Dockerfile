@@ -9,7 +9,7 @@ RUN npm ci
 # Копирование исходного кода
 COPY . .
 
-RUN npm run knex:rollback
+# RUN npm run knex:rollback
 RUN npm run knex:migrate
 RUN npm run knex:seed
 
