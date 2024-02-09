@@ -21,6 +21,7 @@ export const App = observer(() => {
         tasks.clearTasksList();
     };
     useEffect(() => {
+        auth.checkServer();
         auth.authenticateUser();
     }, []);
     return (
