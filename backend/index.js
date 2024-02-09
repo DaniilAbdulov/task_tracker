@@ -11,6 +11,10 @@ app.use(cors());
 app.use(express.json());
 app.use("/api", router);
 
+app.get('/checkServer',(req,res)=>{
+    res.json({message:'docker server launched'})
+})
+
 const start = async () => {
   try {
     app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
