@@ -6,7 +6,7 @@ export const development = {
     database: process.env.POSTGRES_DB,
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
-    host: "db",
+    host: "db", //закомментировать при локальном запуске
   },
   pool: {
     min: 2,
