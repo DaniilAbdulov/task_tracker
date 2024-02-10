@@ -1,13 +1,12 @@
 import {} from "dotenv/config";
 
-// console.log(process.env);
 export const development = {
   client: "postgresql",
   connection: {
     database: process.env.POSTGRES_DB,
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
-    // host: "db",
+    host: "db",
   },
   pool: {
     min: 2,

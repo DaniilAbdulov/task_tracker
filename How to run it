@@ -1,6 +1,6 @@
 Что бы запустить проект, необходимо создать любую пустую БД на вашей локальной машине, 
 а так же склоинровать данный репозиторий на ту же машину 
-Параметры подключения следует указать в backend\db\knexfile.js
+Параметры подключения следует указать в backend\knexfile.js
 
 После создания БД можно открывать терминал и вводить команды:
 
@@ -8,7 +8,7 @@ task_tracker> cd backend
 task_tracker\backend> npm install 
 task_tracker\backend> npm run knex:migrate 
 task_tracker\backend> npm run knex:seed 
-task_tracker\backend> npm run serve 
+task_tracker\backend> npm run start
 task_tracker\backend> cd .. 
 task_tracker> cd frontend 
 task_tracker\frontend> npm install 
